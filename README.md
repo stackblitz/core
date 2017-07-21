@@ -1,3 +1,3 @@
-# Docs coming soon!
+# StackBlitz Core Docs - coming soon!
 
-We're currently getting the site stable & online — stay tuned...
+We're currently getting the site stable & online — stay tuned :)
