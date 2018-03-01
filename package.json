@@ -1,0 +1,4 @@
+{
+  "private": true,
+  "workspaces": ["npm2redis", "sdk", "turbo-resolver", "turbo-router"]
+}

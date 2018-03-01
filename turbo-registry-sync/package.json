@@ -1,0 +1,19 @@
+{
+  "name": "@stackblitz/turbo-registry-sync",
+  "version": "0.2.0",
+  "bin": {
+    "turbo-registry-sync": "./bin/turbo-registry-sync.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stackblitz/core.git"
+  },
+  "dependencies": {
+    "concurrent-couch-follower": "^1.3.0",
+    "follow": "^0.12.1",
+    "ioredis": "^2.5.0",
+    "npm-package-arg": "^4.2.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0"
+  }
+}
