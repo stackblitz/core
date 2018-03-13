@@ -1,4 +1,4 @@
 {
   "private": true,
-  "workspaces": ["npm2redis", "sdk", "turbo-resolver", "turbo-router"]
+  "workspaces": ["sdk", "turbo-cdn", "turbo-registry-sync", "turbo-resolver"]
 }
