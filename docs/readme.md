@@ -115,8 +115,8 @@ Or add a script tag to the UMD build on jsDelivr/Unpkg — the SDK will be avail
 
 Creating custom projects on-demand from any data source is super simple with the SDK. There are two methods for doing this:
 
-- [`openProject`](#sdk-openproject-project-opts) to create a new project & open it in a new tab (or current window).
-- [`embedProject`](#sdk-embedproject-elementorid-project-embedopts) to create a new project & embed it on the current page.
+- [`openProject`](#sdkopenprojectproject-opts) to create a new project & open it in a new tab (or current window).
+- [`embedProject`](#sdkembedprojectelementorid-project-embedopts) to create a new project & embed it on the current page.
 
 **[View live demo on StackBlitz.](https://stackblitz.com/edit/sdk-create-project)**
 
