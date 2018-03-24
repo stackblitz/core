@@ -25,7 +25,7 @@ module.exports = class Resolver {
     };
     this.error = null;
     this.queue = async.queue((task, done) => {
-      if(Date.now() - this.startTime > 10000 || this.error){
+      if(Date.now() - this.startTime > this.timeout || this.error){
         if(!this.error){
           this.error = { error: 'TIMEOUT' };
         }
