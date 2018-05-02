@@ -15,10 +15,19 @@ export interface Project {
   template: 'angular-cli' | 'create-react-app' | 'typescript' | 'javascript' | string;
   tags?: string[];
   dependencies?: {[name: string]: string};
+  settings?: {
+    compile?: {
+      trigger?: 'auto' | 'keystroke' | 'save' | string;
+      action?: 'hmr' | 'refresh' | string;
+      clearConsole?: boolean;
+    };
+  };
 }
 
 export interface ProjectOptions {
   openFile?: string;
+  hideDevTools?: boolean;
+  devToolsHeight?: number;
 }
 
 export interface OpenOptions extends ProjectOptions {

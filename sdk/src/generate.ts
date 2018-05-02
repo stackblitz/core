@@ -2,6 +2,7 @@ import { Project, EmbedOptions, OpenOptions } from './interfaces';
 import { buildProjectQuery, openTarget } from './helpers';
 
 const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript'];
+const RUN_URL = 'https://stackblitz.com/run';
 
 function createHiddenInput(name: string, value: string){
   const input = document.createElement('input');
@@ -26,13 +27,17 @@ function createProjectForm(project: Project){
   form.appendChild(createHiddenInput('project[template]', project.template));
 
   if(project.tags){
-    project.tags.forEach((tag, index) => {
-      form.appendChild(createHiddenInput(`project[tags][${index}]`, tag));
+    project.tags.forEach(tag => {
+      form.appendChild(createHiddenInput('project[tags][]', tag));
     });
   }
 
   if(project.dependencies){
     form.appendChild(createHiddenInput('project[dependencies]', JSON.stringify(project.dependencies)));
+  }
+
+  if(project.settings){
+    form.appendChild(createHiddenInput('project[settings]', JSON.stringify(project.settings)));
   }
 
   Object.keys(project.files).forEach(path => {
@@ -44,7 +49,7 @@ function createProjectForm(project: Project){
 
 export function createProjectFrameHTML(project: Project, options?: EmbedOptions){
   const form = createProjectForm(project);
-  form.action = `https://stackblitz.com/run${buildProjectQuery(options)}`;
+  form.action = RUN_URL + buildProjectQuery(options);
   form.id = 'sb';
 
   const html = `<html><head><title></title></head><body>${
@@ -56,7 +61,7 @@ export function createProjectFrameHTML(project: Project, options?: EmbedOptions)
 
 export function openProject(project: Project, options?: OpenOptions){
   const form = createProjectForm(project);
-  form.action = `https://stackblitz.com/run${buildProjectQuery(options)}`;
+  form.action = RUN_URL + buildProjectQuery(options);
   form.target = openTarget(options);
 
   document.body.appendChild(form);

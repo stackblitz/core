@@ -57,6 +57,16 @@ Alternatively, you can also use our [Javascript SDK methods](#open-and-embed-sta
     <td><code>editor</code> / <code>preview</code></td>
     <td>Which view to open by default</td>
   </tr>
+  <tr>
+    <td><code>hidedevtools</code></td>
+    <td><code>0</code> / <code>1</code></td>
+    <td>Hide the debugging console in the editor preview</td>
+  </tr>
+  <tr>
+    <td><code>devtoolsheight</code></td>
+    <td><code>0</code> &lt; <code>height</code> &lt; <code>1000</code></td>
+    <td>Set the height of the debugging console in the editor preview</td>
+  </tr>
 </table>
 
 ## Embed on Medium
@@ -134,6 +144,13 @@ Create a new project and open it in a new tab (or in the current window).
   template: 'angular-cli' | 'create-react-app' | 'typescript' | 'javascript';
   tags?: string[];
   dependencies?: {[name: string]: string};
+  settings?: {
+    compile?: {
+      trigger?: 'auto' | 'keystroke' | 'save';
+      action?: 'hmr' | 'refresh';
+      clearConsole?: boolean;
+    };
+  };
 }
 ```
 
@@ -143,6 +160,8 @@ Create a new project and open it in a new tab (or in the current window).
 {
   openFile?: string; // Show a specific file on page load
   newWindow?: true // Open in new window or in current window
+  hideDevTools?: boolean; // Hide the debugging console
+  devToolsHeight?: number; // Set the height of the debugging console
 }
 ```
 
@@ -302,8 +321,8 @@ project[template] = Can be one of: typescript, angular-cli, create-react-app, ja
 You can also optionally include tags:
 
 ```
-project[tags][0] = rxjs
-project[tags][1] = example
+project[tags][] = rxjs
+project[tags][] = example
 ```
 
 ## Example payload
@@ -327,12 +346,13 @@ Observable.fromEvent(button, 'click')
 ">
 <input type="hidden" name="project[files][index.html]" value="<button>Click Me</button>
 ">
-<input type="hidden" name="project[tags][0]" value="rxjs">
-<input type="hidden" name="project[tags][1]" value="example">
-<input type="hidden" name="project[tags][2]" value="tutorial">
+<input type="hidden" name="project[tags][]" value="rxjs">
+<input type="hidden" name="project[tags][]" value="example">
+<input type="hidden" name="project[tags][]" value="tutorial">
 <input type="hidden" name="project[description]" value="RxJS Example">
 <input type="hidden" name="project[dependencies]" value="{&quot;rxjs&quot;:&quot;5.5.6&quot;}">
 <input type="hidden" name="project[template]" value="typescript">
+<input type="hidden" name="project[settings]" value="{&quot;compile&quot;:{&quot;clearConsole&quot;:false}}">
 </form>
 <script>document.getElementById("mainForm").submit();</script>
 

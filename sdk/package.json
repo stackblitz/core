@@ -1,6 +1,6 @@
 {
   "name": "@stackblitz/sdk",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "",
   "main": "./bundles/sdk.js",
   "module": "./bundles/sdk.m.js",
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm run compile && npm run bundle",
     "compile": "tsc --p tsconfig.json",
-    "bundle": "microbundle --i dist/index.js --name StackBlitzSDK --target=browser",
+    "bundle": "npx microbundle --i dist/index.js --name StackBlitzSDK --target=browser",
     "docs": "typedoc --out docs/ src/index.ts"
   },
   "files": [

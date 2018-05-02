@@ -23,7 +23,7 @@ export class Connection {
 
       const pingFrame = () => {
         // Ping the Iframe.
-        this.element.contentWindow.postMessage({
+        this.element.contentWindow && this.element.contentWindow.postMessage({
           action: 'SDK_INIT',
           id: this.id
         }, '*');

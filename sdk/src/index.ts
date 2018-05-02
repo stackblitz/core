@@ -53,7 +53,7 @@ const StackBlitzSDK = {
     replaceAndEmbed(element, frame, options);
 
     // HTML needs to be written after iframe is embedded
-    frame.contentDocument.write(html);
+    frame.contentDocument && frame.contentDocument.write(html);
 
     return StackBlitzSDK.connect(frame);
   },

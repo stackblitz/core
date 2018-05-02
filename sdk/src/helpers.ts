@@ -34,7 +34,15 @@ export function buildProjectQuery(options?: EmbedOptions){
   }
 
   if(options.hideNavigation){
-    queryParams += `${queryParams.length ? '&' : ''}hideNavigation=1;`
+    queryParams += `${queryParams.length ? '&' : ''}hideNavigation=1;`;
+  }
+
+  if(options.hideDevTools){
+    queryParams += `${queryParams.length ? '&' : ''}hidedevtools=1`;
+  }
+
+  if(typeof options.devToolsHeight === 'number' && options.devToolsHeight > 0 && options.devToolsHeight < 100){
+    queryParams += `${queryParams.length ? '&' : ''}devtoolsheight=${options.devToolsHeight}`;
   }
 
   return queryParams.length ? `?${queryParams}` : queryParams;
