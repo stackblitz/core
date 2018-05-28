@@ -85,7 +85,7 @@ With your desired StackBlitz project open, simply drag and drop any files and fo
 
 You can run any public repo on Github by providing the username + repo name like so:
 
-`stackblitz.com/github/{GH_USERNAME}/{REPO_NAME}`
+`https://stackblitz.com/github/{GH_USERNAME}/{REPO_NAME}`
 
 And you can also optionally specify a branch, tag, or commit:
 
