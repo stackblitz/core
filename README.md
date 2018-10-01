@@ -9,6 +9,6 @@ This repo serves as our primary way of [keeping track of bugs](https://github.co
 Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz-online-vs-code-ide-for-angular-react-7d09348497f4) which covers our core functionality, feature set and motivations behind the project.
 
 ### Curious how our technology works?
-We recommend [reading the writeup](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this Github repo.
+We recommend [reading the write-up](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this Github repo.
 
 ### Learn more at [stackblitz.com/docs](https://stackblitz.com/docs)
