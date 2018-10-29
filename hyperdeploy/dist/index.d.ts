@@ -15,7 +15,7 @@
  * Tokens can be generated from oAuth or hard coded from `firebase login:ci`.
  * Files in the specified cwd are read & deployed.
  */
-export declare function deployFirebase(config: {
+export declare function firebaseDeploy(config: {
     project: string;
     token: string;
     cwd: string;

@@ -1,6 +1,6 @@
 var firebaseTools = require('firebase-tools');
 
-function deployFirebase(config) {
+function firebaseDeploy(config) {
     var cwd = config.cwd, project = config.project, token = config.token;
     process.chdir(cwd);
     return firebaseTools.deploy({
@@ -10,5 +10,5 @@ function deployFirebase(config) {
     });
 }
 
-exports.deployFirebase = deployFirebase;
+exports.firebaseDeploy = firebaseDeploy;
 //# sourceMappingURL=hyperdeploy.js.map
