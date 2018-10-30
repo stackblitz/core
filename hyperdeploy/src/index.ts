@@ -22,7 +22,7 @@ export function firebaseDeploy(config: {
   token: string,
   cwd: string,
 }): Promise<any> {
-  const {cwd, project, token} = config;
+  const {project, token, cwd} = config;
   /**
    * Programmatic deploys use source cwd by default.
    * To fix this, we explicitly change cwd on process first.
