@@ -12,7 +12,7 @@ export interface Project {
   files: {[path: string]: string};
   title: string;
   description: string;
-  template: 'angular-cli' | 'create-react-app' | 'typescript' | 'javascript' | string;
+  template: string;
   tags?: string[];
   dependencies?: {[name: string]: string};
   settings?: {
