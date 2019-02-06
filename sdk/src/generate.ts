@@ -1,7 +1,7 @@
 import { Project, EmbedOptions, OpenOptions } from './interfaces';
 import { buildProjectQuery, openTarget } from './helpers';
 
-const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript'];
+const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript', 'polymer'];
 const RUN_URL = 'https://stackblitz.com/run';
 
 function createHiddenInput(name: string, value: string){
@@ -14,7 +14,7 @@ function createHiddenInput(name: string, value: string){
 
 function createProjectForm(project: Project){
   if(SUPPORTED_TEMPLATES.indexOf(project.template) === -1){
-    throw new Error(`Unsupported project template, must be one of: ${SUPPORTED_TEMPLATES.join(', ')}`);
+    console.warn(`Unsupported project template, must be one of: ${SUPPORTED_TEMPLATES.join(', ')}`);
   }
 
   const form = document.createElement('form');
