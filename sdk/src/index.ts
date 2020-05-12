@@ -2,7 +2,7 @@ import { VM } from './VM';
 import { Project, OpenOptions, EmbedOptions } from './interfaces';
 import { Connection, getConnection } from './connection';
 import { openProject, createProjectFrameHTML } from './generate';
-import { replaceAndEmbed, buildProjectQuery, elementFromElementOrId, openTarget } from './helpers';
+import { replaceAndEmbed, buildProjectQuery, elementFromElementOrId, openTarget, getOrigin } from './helpers';
 
 const StackBlitzSDK = {
   connect: (frameEl: HTMLIFrameElement) => {
@@ -26,20 +26,20 @@ const StackBlitzSDK = {
 
   // Open in new tab methods
   openGithubProject: (repoSlug: string, options?: OpenOptions) => {
-    window.open(`https://stackblitz.com/github/${repoSlug}${buildProjectQuery(options)}`, openTarget(options));
+    window.open(`${getOrigin(options)}/github/${repoSlug}${buildProjectQuery(options)}`, openTarget(options));
   },
   openProject: (project: Project, options?: OpenOptions) => {
     openProject(project, options);
   },
   openProjectId: (projectId: string, options?: OpenOptions) => {
-    window.open(`https://stackblitz.com/edit/${projectId}${buildProjectQuery(options)}`, openTarget(options));
+    window.open(`${getOrigin(options)}/edit/${projectId}${buildProjectQuery(options)}`, openTarget(options));
   },
 
   // Embed on page methods
   embedGithubProject: (elementOrId: string | HTMLElement, repoSlug: string, options?: EmbedOptions) => {
     const element = elementFromElementOrId(elementOrId);
     const frame = document.createElement('iframe');
-    frame.src = `https://stackblitz.com/github/${repoSlug}${buildProjectQuery(options)}`;
+    frame.src = `${getOrigin(options)}/github/${repoSlug}${buildProjectQuery(options)}`;
 
     replaceAndEmbed(element, frame, options);
 
@@ -60,7 +60,7 @@ const StackBlitzSDK = {
   embedProjectId: (elementOrId: string | HTMLElement, projectId: string, options?: EmbedOptions) => {
     const element = elementFromElementOrId(elementOrId);
     const frame = document.createElement('iframe');
-    frame.src = `https://stackblitz.com/edit/${projectId}${buildProjectQuery(options)}`;
+    frame.src = `${getOrigin(options)}/edit/${projectId}${buildProjectQuery(options)}`;
 
     replaceAndEmbed(element, frame, options);
 

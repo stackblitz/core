@@ -1,5 +1,10 @@
 import { ProjectOptions, EmbedOptions, OpenOptions } from './interfaces';
 
+export function getOrigin(options?: ProjectOptions | OpenOptions | EmbedOptions) {
+  if (options && options.origin) return options.origin;
+  return 'https://stackblitz.com';
+}
+
 const DEFAULT_FRAME_HEIGHT = '300';
 
 export function genID() {
