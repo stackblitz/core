@@ -1,8 +1,7 @@
 import { Project, EmbedOptions, OpenOptions } from './interfaces';
-import { buildProjectQuery, openTarget } from './helpers';
+import { buildProjectQuery, openTarget, getOrigin } from './helpers';
 
 const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript', 'polymer'];
-const RUN_URL = 'https://stackblitz.com/run';
 
 function createHiddenInput(name: string, value: string){
   const input = document.createElement('input');
@@ -49,7 +48,7 @@ function createProjectForm(project: Project){
 
 export function createProjectFrameHTML(project: Project, options?: EmbedOptions){
   const form = createProjectForm(project);
-  form.action = RUN_URL + buildProjectQuery(options);
+  form.action = `${getOrigin(options)}/run` + buildProjectQuery(options);
   form.id = 'sb';
 
   const html = `<html><head><title></title></head><body>${
@@ -61,7 +60,7 @@ export function createProjectFrameHTML(project: Project, options?: EmbedOptions)
 
 export function openProject(project: Project, options?: OpenOptions){
   const form = createProjectForm(project);
-  form.action = RUN_URL + buildProjectQuery(options);
+  form.action = `${getOrigin(options)}/run` + buildProjectQuery(options);
   form.target = openTarget(options);
 
   document.body.appendChild(form);
