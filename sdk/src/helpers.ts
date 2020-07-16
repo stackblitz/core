@@ -34,6 +34,10 @@ export function buildProjectQuery(options?: EmbedOptions){
     queryParams += `${queryParams.length ? '&' : ''}view=${options.view}`;
   }
 
+  if(options.theme){
+    queryParams += `${queryParams.length ? '&' : ''}theme=${options.theme}`;
+  }
+
   if(options.hideExplorer){
     queryParams += `${queryParams.length ? '&' : ''}hideExplorer=1`;
   }
