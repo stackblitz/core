@@ -1,7 +1,7 @@
 import { Project, EmbedOptions, OpenOptions } from './interfaces';
 import { buildProjectQuery, openTarget, getOrigin } from './helpers';
 
-const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript', 'polymer'];
+const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript', 'polymer', 'vue'];
 
 function createHiddenInput(name: string, value: string){
   const input = document.createElement('input');
