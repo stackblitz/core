@@ -9,7 +9,7 @@
     "lodash": "^4.17.4",
     "semver": "^5.4.1",
     "superagent": "^3.8.1",
-    "typescript": "^2.6.1",
+    "typescript": "^2.9.2",
     "validate-npm-package-name": "^3.0.0"
   }
 }
