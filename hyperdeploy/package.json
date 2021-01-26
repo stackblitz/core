@@ -15,6 +15,6 @@
     "firebase-tools": "^6.0.0"
   },
   "devDependencies": {
-    "microbundle": "^0.7.0"
+    "microbundle": "^0.12.0"
   }
 }
