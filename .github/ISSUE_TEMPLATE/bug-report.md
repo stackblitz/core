@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 ### **Description of Bug**
-Provide a concise description of your bug.
+Provide a concise description of your bug and your project link (if applicable).
 
 
 ### **Steps to Reproduce**
