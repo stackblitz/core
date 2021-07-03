@@ -22,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.3.1",
-    "typedoc": "^0.10.0",
+    "typedoc": "^0.19.2",
     "typescript": "^2.9.2"
   }
 }
