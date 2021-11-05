@@ -12,49 +12,47 @@ export function genID() {
 }
 
 export function buildProjectQuery(options?: EmbedOptions){
-  let queryParams = '';
+  const params = [];
 
-  if(!options){
-    return queryParams;
+  if(options){
+    if(options.forceEmbedLayout) {
+      params.push('embed=1');
+    }
+
+    if(options.clickToLoad){
+      params.push('ctl=1');
+    }
+
+    if(typeof options.openFile === 'string'){
+      params.push(`file=${options.openFile}`);
+    }
+
+    if(options.view === 'preview' || options.view === 'editor'){
+      params.push(`view=${options.view}`);
+    }
+
+    if(options.theme === 'light' || options.theme === 'dark'){
+      params.push(`theme=${options.theme}`);
+    }
+
+    if(options.hideExplorer){
+      params.push('hideExplorer=1');
+    }
+
+    if(options.hideNavigation){
+      params.push('hideNavigation=1');
+    }
+
+    if(options.hideDevTools){
+      params.push('hidedevtools=1');
+    }
+
+    if(typeof options.devToolsHeight === 'number' && options.devToolsHeight >= 0 && options.devToolsHeight <= 100){
+      params.push(`devtoolsheight=${Math.round(options.devToolsHeight)}`);
+    }
   }
 
-  if(options.forceEmbedLayout) {
-    queryParams += 'embed=1';
-  }
-
-  if(options.clickToLoad){
-    queryParams += `${queryParams.length ? '&' : ''}ctl=1`;
-  }
-
-  if(options.openFile){
-    queryParams += `${queryParams.length ? '&' : ''}file=${options.openFile}`;
-  }
-
-  if(options.view && (options.view === 'preview' || options.view === 'editor')){
-    queryParams += `${queryParams.length ? '&' : ''}view=${options.view}`;
-  }
-
-  if(options.theme){
-    queryParams += `${queryParams.length ? '&' : ''}theme=${options.theme}`;
-  }
-
-  if(options.hideExplorer){
-    queryParams += `${queryParams.length ? '&' : ''}hideExplorer=1`;
-  }
-
-  if(options.hideNavigation){
-    queryParams += `${queryParams.length ? '&' : ''}hideNavigation=1;`;
-  }
-
-  if(options.hideDevTools){
-    queryParams += `${queryParams.length ? '&' : ''}hidedevtools=1`;
-  }
-
-  if(typeof options.devToolsHeight === 'number' && options.devToolsHeight > 0 && options.devToolsHeight < 100){
-    queryParams += `${queryParams.length ? '&' : ''}devtoolsheight=${options.devToolsHeight}`;
-  }
-
-  return queryParams.length ? `?${queryParams}` : queryParams;
+  return params.length ? `?${params.join('&')}` : '';
 }
 
 export function replaceAndEmbed(parent: HTMLElement, frame: HTMLIFrameElement, options?: EmbedOptions){
