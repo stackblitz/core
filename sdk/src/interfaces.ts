@@ -37,7 +37,7 @@ export interface OpenOptions extends ProjectOptions {
 
 export interface EmbedOptions extends ProjectOptions {
   clickToLoad?: boolean;
-  view?: 'preview' | 'editor' | string;
+  view?: 'preview' | 'editor';
   theme?: 'light' | 'dark';
   height?: number | string;
   width?: number | string;
