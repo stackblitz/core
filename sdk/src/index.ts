@@ -1,4 +1,3 @@
-import { VM } from './VM';
 import { Project, OpenOptions, EmbedOptions } from './interfaces';
 import { Connection, getConnection } from './connection';
 import { openProject, createProjectFrameHTML } from './generate';
