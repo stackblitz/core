@@ -10,8 +10,7 @@
   "scripts": {
     "build": "npm run compile && npm run bundle",
     "compile": "tsc --p tsconfig.json",
-    "bundle": "npx microbundle --i dist/index.js --name StackBlitzSDK --target=browser",
-    "docs": "typedoc --out docs/ src/index.ts"
+    "bundle": "npx microbundle --i dist/index.js --name StackBlitzSDK --target=browser"
   },
   "files": [
     "bundles",
@@ -22,7 +21,6 @@
   "dependencies": {},
   "devDependencies": {
     "microbundle": "^0.3.1",
-    "typedoc": "^0.10.0",
     "typescript": "^2.9.2"
   }
 }
