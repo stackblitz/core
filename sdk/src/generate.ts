@@ -1,7 +1,15 @@
 import { Project, EmbedOptions, OpenOptions } from './interfaces';
 import { buildProjectQuery, openTarget, getOrigin } from './helpers';
 
-const SUPPORTED_TEMPLATES = ['typescript', 'create-react-app', 'angular-cli', 'javascript', 'polymer', 'vue'];
+const SUPPORTED_TEMPLATES: Project['template'][] = [
+  'angular-cli',
+  'create-react-app',
+  'javascript',
+  'node',
+  'polymer',
+  'typescript',
+  'vue',
+];
 
 function createHiddenInput(name: string, value: string){
   const input = document.createElement('input');
@@ -19,17 +27,11 @@ function createProjectForm(project: Project){
   const form = document.createElement('form');
 
   form.method = 'POST';
-  form.setAttribute('style', 'display:none;');
+  form.setAttribute('style', 'display:none!important;');
 
   form.appendChild(createHiddenInput('project[title]', project.title));
   form.appendChild(createHiddenInput('project[description]', project.description));
   form.appendChild(createHiddenInput('project[template]', project.template));
-
-  if(project.tags){
-    project.tags.forEach(tag => {
-      form.appendChild(createHiddenInput('project[tags][]', tag));
-    });
-  }
 
   if(project.dependencies){
     form.appendChild(createHiddenInput('project[dependencies]', JSON.stringify(project.dependencies)));

@@ -1,20 +1,21 @@
-import { VM } from './VM';
-
 export interface RequestData {
-  type: string,
+  type: string;
   payload: {
     __reqid?: string;
     [key: string]: any;
-  }
+  };
 }
 
 export interface Project {
-  files: {[path: string]: string};
   title: string;
   description: string;
   template: string;
-  tags?: string[];
-  dependencies?: {[name: string]: string};
+  files: {
+    [path: string]: string;
+  };
+  dependencies?: {
+    [name: string]: string;
+  };
   settings?: {
     compile?: {
       trigger?: 'auto' | 'keystroke' | 'save' | string;
@@ -22,6 +23,8 @@ export interface Project {
       clearConsole?: boolean;
     };
   };
+  /** @deprecated Tags are ignored by the StackBlitz SDK since v1.5.4 */
+  tags?: string[];
 }
 
 export interface ProjectOptions {
