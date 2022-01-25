@@ -1,6 +1,6 @@
 {
   "name": "@stackblitz/sdk",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "",
   "main": "./bundles/sdk.js",
   "module": "./bundles/sdk.m.js",
