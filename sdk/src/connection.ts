@@ -9,7 +9,7 @@ export class Connection {
   pending: Promise<VM>;
   vm: VM;
 
-  constructor(element: HTMLIFrameElement){
+  constructor(element: HTMLIFrameElement) {
     this.id = genID();
     this.element = element;
     this.pending = new Promise<VM>((resolve, reject) => {
@@ -23,12 +23,15 @@ export class Connection {
 
       const pingFrame = () => {
         // Ping the Iframe.
-        this.element.contentWindow && this.element.contentWindow.postMessage({
-          action: 'SDK_INIT',
-          id: this.id
-        }, '*');
+        this.element.contentWindow &&
+          this.element.contentWindow.postMessage(
+            {
+              action: 'SDK_INIT',
+              id: this.id,
+            },
+            '*'
+          );
       };
-
 
       // Remove the listener and interval.
       function cleanup() {
@@ -58,10 +61,10 @@ export class Connection {
           reject('Timeout: Unable to establish a connection with the StackBlitz VM');
           // Remove the (now) failed connection from the connections array
           connections.forEach((connection, index) => {
-            if(connection.id === this.id){
+            if (connection.id === this.id) {
               connections.splice(index, 1);
             }
-          })
+          });
           return;
         }
 
@@ -82,4 +85,4 @@ export const getConnection = (identifier: string | HTMLIFrameElement) => {
   });
 
   return !res ? null : res;
-}
+};
