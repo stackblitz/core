@@ -1,7 +1,7 @@
 import { RDC } from './RDC';
 
 export interface VMConfig {
-  previewOrigin: string
+  previewOrigin: string;
 }
 
 export class VM {
@@ -12,39 +12,39 @@ export class VM {
   constructor(port: MessagePort, config: VMConfig) {
     this.rdc = new RDC(port);
 
-    this.preview = {}
+    this.preview = {};
     Object.defineProperty(this.preview, 'origin', {
       value: config.previewOrigin,
-      writable: false
-    })
+      writable: false,
+    });
 
     this.editor = {
       openFile: (path: string) => {
         return this.rdc.request({
           type: 'SDK_OPEN_FILE',
-          payload: {path}
-        })
-      }
-    }
+          payload: { path },
+        });
+      },
+    };
   }
 
-  applyFsDiff(diff: {create: {[path: string]: string}, destroy: string[]}) {
+  applyFsDiff(diff: { create: { [path: string]: string }; destroy: string[] }) {
     // Need to do validations on the DIFF object here.
     return this.rdc.request({
       type: 'SDK_APPLY_FS_DIFF',
-      payload: diff
-    })
+      payload: diff,
+    });
   }
   getFsSnapshot() {
     return this.rdc.request({
       type: 'SDK_GET_FS_SNAPSHOT',
-      payload: {}
-    })
+      payload: {},
+    });
   }
   getDependencies() {
     return this.rdc.request({
       type: 'SDK_GET_DEPS_SNAPSHOT',
-      payload: {}
-    })
+      payload: {},
+    });
   }
 }

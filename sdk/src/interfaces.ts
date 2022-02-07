@@ -1,20 +1,21 @@
-import { VM } from './VM';
-
 export interface RequestData {
-  type: string,
+  type: string;
   payload: {
     __reqid?: string;
     [key: string]: any;
-  }
+  };
 }
 
 export interface Project {
-  files: {[path: string]: string};
   title: string;
   description: string;
-  template: 'angular-cli' | 'create-react-app' | 'typescript' | 'javascript' | string;
-  tags?: string[];
-  dependencies?: {[name: string]: string};
+  template: string;
+  files: {
+    [path: string]: string;
+  };
+  dependencies?: {
+    [name: string]: string;
+  };
   settings?: {
     compile?: {
       trigger?: 'auto' | 'keystroke' | 'save' | string;
@@ -22,12 +23,15 @@ export interface Project {
       clearConsole?: boolean;
     };
   };
+  /** @deprecated Tags are ignored by the StackBlitz SDK since v1.5.4 */
+  tags?: string[];
 }
 
 export interface ProjectOptions {
   openFile?: string;
   hideDevTools?: boolean;
   devToolsHeight?: number;
+  origin?: string;
 }
 
 export interface OpenOptions extends ProjectOptions {
@@ -36,7 +40,8 @@ export interface OpenOptions extends ProjectOptions {
 
 export interface EmbedOptions extends ProjectOptions {
   clickToLoad?: boolean;
-  view?: 'preview' | 'editor' | string;
+  view?: 'preview' | 'editor';
+  theme?: 'light' | 'dark';
   height?: number | string;
   width?: number | string;
   hideExplorer?: boolean;
