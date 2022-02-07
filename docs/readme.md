@@ -6,7 +6,7 @@ Welcome to StackBlitz! We've created this documentation to help answer any quest
 Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz-online-vs-code-ide-for-angular-react-7d09348497f4) which covers our core functionality, feature set and motivations behind the project.
 
 ### Curious how our technology works?
-We recommend [reading the writeup](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and checking out our [Github repo](https://github.com/stackblitz/core).
+We recommend [reading the writeup](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and checking out our [GitHub repo](https://github.com/stackblitz/core).
 
 
 
@@ -81,9 +81,9 @@ With your desired StackBlitz project open, simply drag and drop any files and fo
 
 <img src="https://i.imgur.com/7F9r1xw.gif" />
 
-## Import from Github
+## Import from GitHub
 
-You can run any public repo on Github by providing the username + repo name like so:
+You can run any public repo on GitHub by providing the username + repo name like so:
 
 `stackblitz.com/github/{GH_USERNAME}/{REPO_NAME}`
 
@@ -92,7 +92,7 @@ And you can also optionally specify a branch, tag, or commit:
 `.../github/{GH_USERNAME}/{REPO_NAME}/tree/{TAG|BRANCH|COMMIT}`
 
 ### Automatically stays in sync with your repo
-Whenever you push commits to Github, the corresponding StackBlitz project automatically updates with the latest changes — ensuring Github remains your code’s source of truth.
+Whenever you push commits to GitHub, the corresponding StackBlitz project automatically updates with the latest changes — ensuring GitHub remains your code’s source of truth.
 
 ### Supported project types
 
@@ -212,27 +212,27 @@ Create a new project and embed it on the current page. Returns a promise resolvi
 }
 ```
 
-## Open and Embed Github Repos
+## Open and Embed GitHub Repos
 
-Yup, you can point directly at Github repos containing Angular/React projects and it'll automatically pull them down & run them.
+Yup, you can point directly at GitHub repos containing Angular/React projects and it'll automatically pull them down & run them.
 
 **[View live demo on StackBlitz.](https://stackblitz.com/edit/sdk-github-project)**
 
-### <span class="fn">sdk.openGithubProject(<span class="args">repoSlug[, opts]</span>)</span>
+### <span class="fn">sdk.openGitHubProject(<span class="args">repoSlug[, opts]</span>)</span>
 
-Open a project from Github and open it in a new tab (or in the current window).
+Open a project from GitHub and open it in a new tab (or in the current window).
 
-`repoSlug`: String of the Github username, repo and optionally branch/tag/commit.
+`repoSlug`: String of the GitHub username, repo and optionally branch/tag/commit.
 
 `opts`: The same [options object](#options) as `openProject`
 
-### <span class="fn">sdk.embedGithubProject(<span class="args">elementOrId, repoSlug[, embedOpts]</span>)</span>
+### <span class="fn">sdk.embedGitHubProject(<span class="args">elementOrId, repoSlug[, embedOpts]</span>)</span>
 
-Embeds a project from Github on the current page. Returns a promise resolving it's [VM instance](#controlling-the-vm).
+Embeds a project from GitHub on the current page. Returns a promise resolving it's [VM instance](#controlling-the-vm).
 
 `elementOrId`: Either an element ID string or the target HTMLElement itself.
 
-`repoSlug`: String of the Github username, repo and optionally branch/tag/commit.
+`repoSlug`: String of the GitHub username, repo and optionally branch/tag/commit.
 
 `embedOpts`: Optional [embed options](#embed-options) object
 
