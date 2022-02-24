@@ -200,7 +200,7 @@ Create a new project and embed it on the current page. Returns a promise resolvi
 
 ```ts
 {
-  openFile?: string | string[]; // Show one or multiple files on page load
+  openFile?: string | string[]; // Show one or multiple files on embed load
   clickToLoad?: boolean; // Load editor only when clicked ("click to load")
   view?: 'preview' | 'editor';
   height?: number | string;
