@@ -3,12 +3,12 @@
 Welcome to StackBlitz! We've created this documentation to help answer any questions you may have about what StackBlitz is, how to use it and what its APIs are.
 
 ### Just learning about StackBlitz?
+
 Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz-online-vs-code-ide-for-angular-react-7d09348497f4) which covers our core functionality, feature set and motivations behind the project.
 
 ### Curious how our technology works?
+
 We recommend [reading the writeup](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and checking out our [GitHub repo](https://github.com/stackblitz/core).
-
-
 
 # Embedding
 
@@ -92,6 +92,7 @@ And you can also optionally specify a branch, tag, or commit:
 `.../github/{GH_USERNAME}/{REPO_NAME}/tree/{TAG|BRANCH|COMMIT}`
 
 ### Automatically stays in sync with your repo
+
 Whenever you push commits to GitHub, the corresponding StackBlitz project automatically updates with the latest changes — ensuring GitHub remains your code’s source of truth.
 
 ### Supported project types
@@ -101,7 +102,6 @@ We currently support projects using `@angular/cli` and `create-react-app`. Suppo
 ## StackBlitz API
 
 You can create new StackBlitz projects programmatically from any data source using our [POST API](#post-api) or the [openProject](#sdk-openproject-project-opts) & [embedProject](#sdk-embedproject-elementorid-project-embedopts) methods in our [Javascript SDK](#javascript-sdk).
-
 
 # Javascript SDK
 
@@ -158,7 +158,7 @@ Create a new project and open it in a new tab (or in the current window).
 
 ```ts
 {
-  openFile?: string; // Show a specific file on page load
+  openFile?: string | string[]; // Show one or multiple files on page load
   newWindow?: true // Open in new window or in current window
   hideDevTools?: boolean; // Hide the debugging console
   devToolsHeight?: number; // Set the height of the debugging console
@@ -186,7 +186,6 @@ Create a new project and open it in a new tab (or in the current window).
   </tr>
 </table>
 
-
 ### <span class="fn">sdk.embedProject(<span class="args">elementOrId, project[, embedOpts]</span>)</span>
 
 Create a new project and embed it on the current page. Returns a promise resolving it's [VM instance](#controlling-the-vm).
@@ -201,7 +200,7 @@ Create a new project and embed it on the current page. Returns a promise resolvi
 
 ```ts
 {
-  openFile?: string; // Show a specific file on embed load
+  openFile?: string | string[]; // Show one or multiple files on page load
   clickToLoad?: boolean; // Load editor only when clicked ("click to load")
   view?: 'preview' | 'editor';
   height?: number | string;
@@ -236,7 +235,6 @@ Embeds a project from GitHub on the current page. Returns a promise resolving it
 
 `embedOpts`: Optional [embed options](#embed-options) object
 
-
 ## Open and Embed StackBlitz Projects
 
 If you have a specific StackBlitz project ID you want to open or embed, you can use these methods:
@@ -258,7 +256,6 @@ Embeds an existing StackBlitz project on the current page. Returns a promise res
 `projectId`: The ID of the StackBlitz project to open
 
 `embedOpts`: Optional [embed options](#embed-options) object
-
 
 ## Controlling the VM
 
@@ -331,11 +328,18 @@ Below is an example HTML form that generates a project from the RxJS docs using 
 
 ```html
 <html lang="en">
-<head></head>
-<body>
-
-<form id="mainForm" method="post" action="https://stackblitz.com/run" target="_self">
-<input type="hidden" name="project[files][index.ts]" value="import { Observable } from 'rxjs/Observable';
+  <head></head>
+  <body>
+    <form
+      id="mainForm"
+      method="post"
+      action="https://stackblitz.com/run"
+      target="_self"
+    >
+      <input
+        type="hidden"
+        name="project[files][index.ts]"
+        value="import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/scan';
 
@@ -343,18 +347,33 @@ var button = document.querySelector('button');
 Observable.fromEvent(button, 'click')
   .scan((count: number) => count + 1, 0)
   .subscribe(count => console.log(`Clicked ${count} times`));
-">
-<input type="hidden" name="project[files][index.html]" value="<button>Click Me</button>
-">
-<input type="hidden" name="project[tags][]" value="rxjs">
-<input type="hidden" name="project[tags][]" value="example">
-<input type="hidden" name="project[tags][]" value="tutorial">
-<input type="hidden" name="project[description]" value="RxJS Example">
-<input type="hidden" name="project[dependencies]" value="{&quot;rxjs&quot;:&quot;5.5.6&quot;}">
-<input type="hidden" name="project[template]" value="typescript">
-<input type="hidden" name="project[settings]" value="{&quot;compile&quot;:{&quot;clearConsole&quot;:false}}">
-</form>
-<script>document.getElementById("mainForm").submit();</script>
-
-</body></html>
+"
+      />
+      <input
+        type="hidden"
+        name="project[files][index.html]"
+        value="<button>Click Me</button>
+"
+      />
+      <input type="hidden" name="project[tags][]" value="rxjs" />
+      <input type="hidden" name="project[tags][]" value="example" />
+      <input type="hidden" name="project[tags][]" value="tutorial" />
+      <input type="hidden" name="project[description]" value="RxJS Example" />
+      <input
+        type="hidden"
+        name="project[dependencies]"
+        value='{"rxjs":"5.5.6"}'
+      />
+      <input type="hidden" name="project[template]" value="typescript" />
+      <input
+        type="hidden"
+        name="project[settings]"
+        value='{"compile":{"clearConsole":false}}'
+      />
+    </form>
+    <script>
+      document.getElementById('mainForm').submit();
+    </script>
+  </body>
+</html>
 ```
