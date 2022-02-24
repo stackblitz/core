@@ -28,7 +28,7 @@ export interface Project {
 }
 
 export interface ProjectOptions {
-  openFile?: string;
+  openFile?: string | string[];
   hideDevTools?: boolean;
   devToolsHeight?: number;
   origin?: string;

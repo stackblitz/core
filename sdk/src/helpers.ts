@@ -27,6 +27,12 @@ export function buildProjectQuery(options?: EmbedOptions) {
       params.push(`file=${options.openFile}`);
     }
 
+    if (Array.isArray(options.openFile)) {
+      options.openFile.forEach((file) => {
+        params.push(`file=${file}`);
+      });
+    }
+
     if (options.view === 'preview' || options.view === 'editor') {
       params.push(`view=${options.view}`);
     }
