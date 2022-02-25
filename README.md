@@ -12,7 +12,7 @@ Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz
 
 ### Curious how our technology works?
 
-We recommend [reading the writeup](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this GitHub repo.
+We recommend [reading the write-up](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this GitHub repo.
 
 ### Documentation
 

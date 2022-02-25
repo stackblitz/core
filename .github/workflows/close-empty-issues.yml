@@ -1,0 +1,18 @@
+on:
+  issues:
+    types: [opened]
+jobs:
+  closeEmptyIssues:
+    if: "${{ github.event.issue.body == '' }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: close empty issues
+        # v1.0.0
+        uses: kerhub/saved-replies@dd3633c3608fcc768978988b012871d66f98f7d6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state: 'closed'
+          reply: |
+            A minimal context is required to triage your issue.
+
+            Please open a new issue using one of our templates available [here](https://github.com/stackblitz/core/issues/new/choose)
