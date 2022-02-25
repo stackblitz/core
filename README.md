@@ -1,4 +1,4 @@
-# StackBlitz - Your local env, now in the browser
+# StackBlitz — Your local env, now in the browser
 
 [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/stackblitz)
 
@@ -14,4 +14,6 @@ Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz
 
 We recommend [reading the write-up](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this GitHub repo.
 
-### Learn more at [stackblitz.com/docs](https://stackblitz.com/docs)
+### Documentation
+
+__Check out our docs at [developer.stackblitz.com](https://developer.stackblitz.com/)__
