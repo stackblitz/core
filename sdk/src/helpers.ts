@@ -29,7 +29,9 @@ export function buildProjectQuery(options?: EmbedOptions) {
 
     if (Array.isArray(options.openFile)) {
       options.openFile.forEach((file) => {
-        params.push(`file=${file}`);
+        if (typeof file === 'string') {
+          params.push(`file=${file}`);
+        }
       });
     }
 
