@@ -12,7 +12,7 @@ export function genID() {
 }
 
 export function buildProjectQuery(options?: EmbedOptions) {
-  const params = [];
+  const params: string[] = [];
 
   if (options) {
     if (options.forceEmbedLayout) {
