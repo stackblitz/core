@@ -1,16 +1,14 @@
 {
   "name": "@stackblitz/sdk",
   "version": "1.6.0",
-  "description": "",
+  "description": "SDK for generating and embedding StackBlitz projects.",
   "main": "./bundles/sdk.js",
   "module": "./bundles/sdk.m.js",
   "unpkg": "./bundles/sdk.umd.js",
   "jsdelivr": "./bundles/sdk.umd.js",
-  "typings": "./typings/index.d.ts",
+  "types": "./typings/index.d.ts",
   "scripts": {
-    "build": "npm run compile && npm run bundle",
-    "compile": "tsc --p tsconfig.json",
-    "bundle": "npx microbundle --i dist/index.js --name StackBlitzSDK --target=browser"
+    "build": "microbundle --entry src/index.ts --name StackBlitzSDK --format esm,cjs,umd"
   },
   "files": [
     "bundles",
@@ -20,7 +18,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "microbundle": "^0.3.1",
-    "typescript": "^2.9.2"
+    "microbundle": "~0.14.2",
+    "typescript": "~4.2.0"
   }
 }
