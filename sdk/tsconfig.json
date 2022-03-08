@@ -6,7 +6,7 @@
     "removeComments": true,
     "strictNullChecks": true,
     "outDir": "./dist/",
-    "sourceMap": false,
+    "sourceMap": true,
     "declaration": true,
     "declarationDir": "./typings/"
   },

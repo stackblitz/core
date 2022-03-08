@@ -3,6 +3,9 @@ bundles
 dist
 typings
 
+# npm pack result
+/*.tgz
+
 # Dependencies
 node_modules
 yarn.lock
