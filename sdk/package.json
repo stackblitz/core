@@ -8,7 +8,9 @@
   "jsdelivr": "./bundles/sdk.umd.js",
   "types": "./typings/index.d.ts",
   "scripts": {
-    "build": "microbundle --entry src/index.ts --name StackBlitzSDK --format esm,cjs,umd"
+    "build": "microbundle --entry src/index.ts --name StackBlitzSDK --format esm,cjs,umd",
+    "clean": "rimraf bundles typings",
+    "prepack": "npm run clean && npm run build"
   },
   "files": [
     "bundles",
@@ -16,9 +18,9 @@
   ],
   "author": "Eric Simons",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "microbundle": "~0.14.2",
+    "rimraf": "^3.0.2",
     "typescript": "~4.2.0"
   }
 }
