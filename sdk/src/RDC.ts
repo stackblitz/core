@@ -48,7 +48,7 @@ export class RDC {
   }
 
   // Always returns a promise; uniquely ID's messages being sent.
-  request(data: RequestData) {
+  request<T = null>(data: RequestData): Promise<T | null> {
     // Generate request ID
     const id = genID();
     return new Promise((resolve, reject) => {
