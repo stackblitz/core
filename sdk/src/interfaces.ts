@@ -1,11 +1,3 @@
-export interface RequestData {
-  type: string;
-  payload: {
-    __reqid?: string;
-    [key: string]: any;
-  };
-}
-
 export interface Project {
   title: string;
   description: string;
@@ -27,8 +19,12 @@ export interface Project {
   tags?: string[];
 }
 
+export type OpenFilePath = string | string[];
+export type UiView = 'default' | 'preview' | 'editor';
+export type UiTheme = 'default' | 'light' | 'dark';
+
 export interface ProjectOptions {
-  openFile?: string | string[];
+  openFile?: OpenFilePath;
   hideDevTools?: boolean;
   devToolsHeight?: number;
   origin?: string;
@@ -40,11 +36,26 @@ export interface OpenOptions extends ProjectOptions {
 
 export interface EmbedOptions extends ProjectOptions {
   clickToLoad?: boolean;
-  view?: 'preview' | 'editor';
-  theme?: 'light' | 'dark';
+  view?: UiView;
+  theme?: UiTheme;
   height?: number | string;
   width?: number | string;
   hideExplorer?: boolean;
   hideNavigation?: boolean;
   forceEmbedLayout?: boolean;
+}
+
+export interface FsDiff {
+  create: {
+    [path: string]: string;
+  };
+  destroy: string[];
+}
+
+export interface RequestData {
+  type: string;
+  payload: {
+    __reqid?: string;
+    [key: string]: any;
+  };
 }

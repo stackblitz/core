@@ -14,7 +14,7 @@ export class Connection {
     this.element = element;
     this.pending = new Promise<VM>((resolve, reject) => {
       const listenForSuccess = (e: MessageEvent) => {
-        if (!!e.data.action && e.data.action === 'SDK_INIT_SUCCESS' && e.data.id === this.id) {
+        if (e.data && e.data.action === 'SDK_INIT_SUCCESS' && e.data.id === this.id) {
           this.vm = new VM(e.ports[0], e.data.payload);
           resolve(this.vm);
           cleanup();
