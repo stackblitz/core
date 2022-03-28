@@ -80,9 +80,5 @@ export class Connection {
 // Accepts either the frame element OR the id.
 export const getConnection = (identifier: string | HTMLIFrameElement) => {
   const key = identifier instanceof Element ? 'element' : 'id';
-  const res = connections.find((c) => {
-    return c[key] === identifier;
-  });
-
-  return !res ? null : res;
+  return connections.find((c) => c[key] === identifier) || null;
 };
