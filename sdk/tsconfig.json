@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
     "module": "es2015",
-    "target": "es2017",
+    "target": "es2020",
     "lib": ["DOM"],
     "noImplicitAny": true,
-    "removeComments": true,
     "strictNullChecks": true,
     "outDir": "./dist/",
-    "sourceMap": true,
     "declaration": true,
-    "declarationDir": "./typings/"
+    "declarationDir": "./typings/",
+    "removeComments": false,
+    "sourceMap": true
   },
-  "include": [
-    "./src/"
-  ]
+  "include": ["./src/"],
 }
