@@ -11,8 +11,12 @@ export function getOrigin(options?: ProjectOptions | OpenOptions | EmbedOptions)
   return DEFAULT_ORIGIN;
 }
 
+/**
+ * Pseudo-random id string for internal accounting.
+ * 8 characters long, and collisions around 1 per million.
+ */
 export function genID() {
-  return Math.random().toString(36).substring(7);
+  return Math.random().toString(36).slice(2, 6) + Math.random().toString(36).slice(2, 6);
 }
 
 export function buildProjectQuery(options?: EmbedOptions) {
