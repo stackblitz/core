@@ -70,8 +70,11 @@ export class VM {
         payload: { path },
       });
     },
+
     /**
      * Change the color theme
+     *
+     * @since 1.7.0
      */
     setTheme: (theme: UiTheme): Promise<null> => {
       return this._rdc.request({
@@ -79,11 +82,14 @@ export class VM {
         payload: { theme },
       });
     },
+
     /**
      * Change the display mode of the project
      * - `default`: show the editor and preview pane
      * - `editor`: show the editor pane only
      * - `preview`: show the preview pane only
+     *
+     * @since 1.7.0
      */
     setView: (view: UiView): Promise<null> => {
       return this._rdc.request({
@@ -91,10 +97,13 @@ export class VM {
         payload: { view },
       });
     },
+
     /**
      * Change the display mode of the sidebar
      * - true: show the sidebar
      * - false: hide the sidebar
+     *
+     * @since 1.7.0
      */
     showSidebar: (visible: boolean = true): Promise<null> => {
       return this._rdc.request({
@@ -114,6 +123,7 @@ export class VM {
      * @see https://developer.stackblitz.com/docs/platform/available-environments
      */
     origin: '' as string | null,
+
     /**
      * Get the current preview URL.
      *
@@ -132,6 +142,7 @@ export class VM {
         payload: {},
       });
     },
+
     /**
      * Change the path of the preview URL.
      *
