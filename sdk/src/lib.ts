@@ -14,10 +14,10 @@ import {
  * Get a VM instance for an existing StackBlitz project iframe.
  */
 export function connect(frameEl: HTMLIFrameElement): Promise<VM> {
-  if (!frameEl || !frameEl.contentWindow) {
+  if (!frameEl?.contentWindow) {
     return Promise.reject('Provided element is not an iframe.');
   }
-  const connection = getConnection(frameEl) || new Connection(frameEl);
+  const connection = getConnection(frameEl) ?? new Connection(frameEl);
   return connection.pending;
 }
 
@@ -70,7 +70,7 @@ export function embedProject(
   replaceAndEmbed(element, frame, options);
 
   // HTML needs to be written after iframe is embedded
-  frame.contentDocument && frame.contentDocument.write(html);
+  frame.contentDocument?.write(html);
 
   return connect(frame);
 }
