@@ -13,37 +13,31 @@ export class RDC {
   constructor(port: MessagePort) {
     this.port = port;
 
-    this.port.onmessage = (e) => {
+    this.port.onmessage = ({ data }) => {
       // Handle if this is a response to a request
-      if (!!e.data.payload.__reqid) {
-        const reqid = e.data.payload.__reqid;
-        const success = e.data.payload.__success;
+      if (data?.payload?.__reqid) {
+        const reqid = data.payload.__reqid;
+        const success = data.payload.__success;
 
         if (this.pending[reqid]) {
-          delete e.data.payload.__reqid;
-          delete e.data.payload.__success;
+          delete data.payload.__reqid;
+          delete data.payload.__success;
 
-          // If successful, resolve the data.
           if (success) {
             // Null the payload if empty object
             const res =
-              Object.keys(e.data.payload).length === 0 && e.data.payload.constructor === Object
+              Object.keys(data.payload).length === 0 && data.payload.constructor === Object
                 ? null
-                : e.data.payload;
-            // Resolve the data.
+                : data.payload;
             this.pending[reqid].resolve(res);
-
-            // Otherwise, reject with error message.
           } else {
-            const error = e.data.payload.error
-              ? `${e.data.type}: ${e.data.payload.error}`
-              : e.data.type;
+            const error = data.payload.error ? `${data.type}: ${data.payload.error}` : data.type;
             this.pending[reqid].reject(error);
           }
+
           delete this.pending[reqid];
         }
       }
-      // End request handler
     };
   }
 
