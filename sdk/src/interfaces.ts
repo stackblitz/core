@@ -96,7 +96,10 @@ export interface ProjectOptions {
   hideNavigation?: boolean;
   /**
    * Use the “embed” layout of the editor.
-   * Defaults to `true` for `embedProject*` methods, and `false` for `openProject*` methods
+   * 
+   * Defaults to `true` for `embedProject*` methods, and `false` for `openProject*` methods.
+   * 
+   * @deprecated May be removed in a future release.
    */
   forceEmbedLayout?: boolean;
   /**
