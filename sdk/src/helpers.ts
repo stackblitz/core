@@ -1,15 +1,7 @@
-import { ProjectOptions, EmbedOptions, OpenOptions } from './interfaces';
+import { EmbedOptions, OpenOptions } from './interfaces';
 
 const DEFAULT_ORIGIN = 'https://stackblitz.com';
 const DEFAULT_FRAME_HEIGHT = '300';
-
-export function getOrigin(options?: ProjectOptions | OpenOptions | EmbedOptions) {
-  if (options && typeof options.origin === 'string') {
-    return options.origin;
-  }
-
-  return DEFAULT_ORIGIN;
-}
 
 /**
  * Pseudo-random id string for internal accounting.
@@ -19,9 +11,28 @@ export function genID() {
   return Math.random().toString(36).slice(2, 6) + Math.random().toString(36).slice(2, 6);
 }
 
-export function buildProjectQuery(options?: EmbedOptions) {
-  if (!options) return '';
+export function openUrl(route: string, options?: OpenOptions) {
+  return `${getOrigin(options)}${route}${buildProjectQuery(options)}`;
+}
 
+export function embedUrl(route: string, options?: EmbedOptions) {
+  const config: EmbedOptions = {
+    forceEmbedLayout: true,
+  };
+  if (options && typeof options === 'object') {
+    Object.assign(config, options);
+  }
+  return `${getOrigin(config)}${route}${buildProjectQuery(config)}`;
+}
+
+function getOrigin(options: OpenOptions | EmbedOptions = {}) {
+  if (typeof options.origin === 'string') {
+    return options.origin;
+  }
+  return DEFAULT_ORIGIN;
+}
+
+function buildProjectQuery(options: OpenOptions | EmbedOptions = {}) {
   const params: string[] = [];
 
   if (options.forceEmbedLayout) {
@@ -101,11 +112,11 @@ export function openTarget(options?: OpenOptions) {
 }
 
 function setFrameDimensions(frame: HTMLIFrameElement, options?: EmbedOptions) {
-  if (options) {
-    if (options.hasOwnProperty('height')) {
+  if (options && typeof options === 'object') {
+    if (Object.hasOwnProperty.call(options, 'height')) {
       frame.height = `${options.height}`;
     }
-    if (options.hasOwnProperty('width')) {
+    if (Object.hasOwnProperty.call(options, 'width')) {
       frame.width = `${options.width}`;
     }
   }
