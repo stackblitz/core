@@ -32,14 +32,10 @@ export function buildProjectQuery(options?: EmbedOptions) {
     params.push('ctl=1');
   }
 
-  if (typeof options.openFile === 'string') {
-    params.push(`file=${options.openFile}`);
-  } else if (Array.isArray(options.openFile)) {
-    options.openFile.forEach((file) => {
-      if (typeof file === 'string') {
-        params.push(`file=${file}`);
-      }
-    });
+  for (const file of Array.isArray(options.openFile) ? options.openFile : [options.openFile]) {
+    if (typeof file === 'string' && file.trim() !== '') {
+      params.push(`file=${encodeURIComponent(file.trim())}`);
+    }
   }
 
   if (options.view === 'preview' || options.view === 'editor') {
