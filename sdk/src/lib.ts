@@ -2,7 +2,7 @@ import type { Project, OpenOptions, EmbedOptions } from './interfaces';
 import type { VM } from './VM';
 import { Connection, getConnection } from './connection';
 import { openNewProject, createProjectFrameHTML } from './generate';
-import { elementFromElementOrId, embedUrl, openTarget, openUrl, replaceAndEmbed } from './helpers';
+import { embedUrl, findElement, openTarget, openUrl, replaceAndEmbed } from './helpers';
 
 /**
  * Get a VM instance for an existing StackBlitz project iframe.
@@ -55,7 +55,7 @@ export function embedProject(
   project: Project,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const html = createProjectFrameHTML(project, options);
   const frame = document.createElement('iframe');
 
@@ -77,7 +77,7 @@ export function embedProjectId(
   projectId: string,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const frame = document.createElement('iframe');
   frame.src = embedUrl(`/edit/${projectId}`, options);
 
@@ -96,7 +96,7 @@ export function embedGithubProject(
   repoSlug: string,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const frame = document.createElement('iframe');
   frame.src = embedUrl(`/github/${repoSlug}`, options);
 

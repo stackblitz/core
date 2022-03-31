@@ -94,17 +94,17 @@ export function replaceAndEmbed(
   parent.parentNode.replaceChild(frame, parent);
 }
 
-export function elementFromElementOrId(elementOrId: string | HTMLElement) {
-  if ('string' === typeof elementOrId) {
+export function findElement(elementOrId: string | HTMLElement) {
+  if (typeof elementOrId === 'string') {
     const element = document.getElementById(elementOrId);
-    if (element !== null) {
-      return element;
+    if (!element) {
+      throw new Error(`Could not find element with id '${elementOrId}'`);
     }
+    return element;
   } else if (elementOrId instanceof HTMLElement) {
     return elementOrId;
   }
-
-  throw new Error('Invalid Element');
+  throw new Error(`Invalid element: ${elementOrId}`);
 }
 
 export function openTarget(options?: OpenOptions) {
