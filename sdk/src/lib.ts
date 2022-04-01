@@ -2,13 +2,7 @@ import type { Project, OpenOptions, EmbedOptions } from './interfaces';
 import type { VM } from './VM';
 import { Connection, getConnection } from './connection';
 import { openNewProject, createProjectFrameHTML } from './generate';
-import {
-  replaceAndEmbed,
-  buildProjectQuery,
-  elementFromElementOrId,
-  openTarget,
-  getOrigin,
-} from './helpers';
+import { embedUrl, findElement, openTarget, openUrl, replaceAndEmbed } from './helpers';
 
 /**
  * Get a VM instance for an existing StackBlitz project iframe.
@@ -32,10 +26,9 @@ export function openProject(project: Project, options?: OpenOptions) {
  * Open an existing StackBlitz project in a new tab (or in the current window).
  */
 export function openProjectId(projectId: string, options?: OpenOptions) {
-  window.open(
-    `${getOrigin(options)}/edit/${projectId}${buildProjectQuery(options)}`,
-    openTarget(options)
-  );
+  const url = openUrl(`/edit/${projectId}`, options);
+  const target = openTarget(options);
+  window.open(url, target);
 }
 
 /**
@@ -47,10 +40,9 @@ export function openProjectId(projectId: string, options?: OpenOptions) {
  *     sdk.openGithubProject('some/repository/tree/some-branch');
  */
 export function openGithubProject(repoSlug: string, options?: OpenOptions) {
-  window.open(
-    `${getOrigin(options)}/github/${repoSlug}${buildProjectQuery(options)}`,
-    openTarget(options)
-  );
+  const url = openUrl(`/github/${repoSlug}`, options);
+  const target = openTarget(options);
+  window.open(url, target);
 }
 
 /**
@@ -63,7 +55,7 @@ export function embedProject(
   project: Project,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const html = createProjectFrameHTML(project, options);
   const frame = document.createElement('iframe');
 
@@ -85,9 +77,9 @@ export function embedProjectId(
   projectId: string,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const frame = document.createElement('iframe');
-  frame.src = `${getOrigin(options)}/edit/${projectId}${buildProjectQuery(options)}`;
+  frame.src = embedUrl(`/edit/${projectId}`, options);
 
   replaceAndEmbed(element, frame, options);
 
@@ -104,9 +96,9 @@ export function embedGithubProject(
   repoSlug: string,
   options?: EmbedOptions
 ): Promise<VM> {
-  const element = elementFromElementOrId(elementOrId);
+  const element = findElement(elementOrId);
   const frame = document.createElement('iframe');
-  frame.src = `${getOrigin(options)}/github/${repoSlug}${buildProjectQuery(options)}`;
+  frame.src = embedUrl(`/github/${repoSlug}`, options);
 
   replaceAndEmbed(element, frame, options);
 
