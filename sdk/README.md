@@ -4,7 +4,7 @@ Wouldn't it be great if you could create StackBlitz projects on-demand from your
 
 This is exactly what the StackBlitz SDK allows you to do. Even better, the SDK even gives you full control of the StackBlitz VM - allowing you to build rich & interactive experiences around your projects. 😮 🙌
 
-The SDK is **2kb gzipped** (!) and you can install it from npm:
+The SDK is **3kB gzipped** (!) and you can install it from npm:
 
 ```sh
 npm install --save @stackblitz/sdk
