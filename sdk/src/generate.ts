@@ -1,5 +1,5 @@
 import { Project, EmbedOptions, OpenOptions } from './interfaces';
-import { openTarget, openUrl } from './helpers';
+import { embedUrl, openTarget, openUrl } from './helpers';
 
 const SUPPORTED_TEMPLATES: Project['template'][] = [
   'angular-cli',
@@ -62,7 +62,7 @@ function createProjectForm(project: Project) {
 
 export function createProjectFrameHTML(project: Project, options?: EmbedOptions) {
   const form = createProjectForm(project);
-  form.action = openUrl('/run', options);
+  form.action = embedUrl('/run', options);
   form.id = 'sb';
 
   const html = `<html><head><title></title></head><body>${form.outerHTML}<script>document.getElementById('${form.id}').submit();</script></body></html>`;
