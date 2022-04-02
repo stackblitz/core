@@ -6,6 +6,7 @@ interface ProjectSettings {
   };
 }
 
+export type ProjectTemplate = 'angular-cli' | 'create-react-app' | 'html' | 'javascript' | 'node' | 'polymer' | 'typescript' | 'vue';
 export type ProjectDependencies = { [name: string]: string };
 export type ProjectFiles = { [path: string]: string };
 
@@ -18,8 +19,10 @@ export interface Project {
    * Template values supported on https://stackblitz.com include:
    * - EngineBlock environment: `angular-cli`, `create-react-app`, `javascript`, `polymer`, `typescript`, `vue`
    * - WebContainers environment: `node`
+   *
+   * @see https://developer.stackblitz.com/docs/platform/available-environments
    */
-  template: string;
+  template: ProjectTemplate;
   /**
    * Provide project files, as code strings.
    *
