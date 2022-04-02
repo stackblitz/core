@@ -1,6 +1,6 @@
 {
   "name": "@stackblitz/sdk",
-  "version": "1.7.0-alpha.1",
+  "version": "1.7.0-alpha.2",
   "description": "SDK for generating and embedding StackBlitz projects.",
   "main": "./bundles/sdk.js",
   "module": "./bundles/sdk.m.js",
