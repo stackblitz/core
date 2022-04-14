@@ -137,10 +137,12 @@ export class VM {
      * @experimental
      */
     getUrl: (): Promise<string | null> => {
-      return this._rdc.request<string | null>({
-        type: 'SDK_GET_PREVIEW_URL',
-        payload: {},
-      });
+      return this._rdc
+        .request<{ url: string } | null>({
+          type: 'SDK_GET_PREVIEW_URL',
+          payload: {},
+        })
+        .then((data) => data?.url ?? null);
     },
 
     /**
@@ -153,6 +155,9 @@ export class VM {
      * @experimental
      */
     setUrl: (path: string = '/'): Promise<null> => {
+      if (typeof path !== 'string' || !path.startsWith('/')) {
+        throw new Error(`Invalid argument: expected a path starting with '/', got '${path}'`);
+      }
       return this._rdc.request<null>({
         type: 'SDK_SET_PREVIEW_URL',
         payload: { path },
