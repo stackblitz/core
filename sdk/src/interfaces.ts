@@ -88,7 +88,8 @@ export interface ProjectOptions {
   /**
    * Height of the Console panel below the preview page (as a percentage number, between `0` and `100`).
    *
-   * By default, the Console will appear collapsed, and can be opened by users. This option is ignored in WebContainers-based projects.
+   * By default, the Console will appear collapsed, and can be opened by users.
+   * This option is ignored in WebContainers-based projects.
    */
   devToolsHeight?: number;
   /**
@@ -101,6 +102,14 @@ export interface ProjectOptions {
    * Hide the ActivityBar (sidebar icons).
    */
   hideExplorer?: boolean;
+  /**
+   * Show the sidebar as open or closed on page load.
+   *
+   * This might be ignored on narrow viewport widths (mobile and/or tablets).
+   *
+   * On larger viewports, defaults to `false` for `embedProject*` methods, and `true` for `openProject*` methods.
+   */
+  showSidebar?: boolean;
   /**
    * Use the “embed” layout of the editor.
    *
@@ -115,6 +124,7 @@ export interface ProjectOptions {
   clickToLoad?: boolean;
   /**
    * Set the origin URL of your StackBlitz EE server.
+   * 
    * Defaults to `https://stackblitz.com`.
    */
   origin?: string;
