@@ -1,12 +1,18 @@
 import type {
-  FsDiff,
-  OpenFilePath,
+  OpenFileOption,
   ProjectDependencies,
   ProjectFiles,
-  UiTheme,
-  UiView,
+  UiThemeOption,
+  UiViewOption,
 } from './interfaces';
-import { RDC } from './RDC';
+import { RDC } from './rdc';
+
+export interface FsDiff {
+  create: {
+    [path: string]: string;
+  };
+  destroy: string[];
+}
 
 export class VM {
   private _rdc: RDC;
@@ -64,7 +70,7 @@ export class VM {
     /**
      * Open one of several files in tabs and/or split panes
      */
-    openFile: (path: OpenFilePath): Promise<null> => {
+    openFile: (path: OpenFileOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_OPEN_FILE',
         payload: { path },
@@ -76,7 +82,7 @@ export class VM {
      *
      * @since 1.7.0
      */
-    setTheme: (theme: UiTheme): Promise<null> => {
+    setTheme: (theme: UiThemeOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_SET_UI_THEME',
         payload: { theme },
@@ -91,7 +97,7 @@ export class VM {
      *
      * @since 1.7.0
      */
-    setView: (view: UiView): Promise<null> => {
+    setView: (view: UiViewOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_SET_UI_VIEW',
         payload: { view },

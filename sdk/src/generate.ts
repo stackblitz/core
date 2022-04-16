@@ -1,7 +1,7 @@
-import { Project, EmbedOptions, OpenOptions } from './interfaces';
+import { Project, ProjectTemplate, EmbedOptions, OpenOptions } from './interfaces';
 import { embedUrl, openTarget, openUrl } from './helpers';
 
-const SUPPORTED_TEMPLATES: Project['template'][] = [
+const SUPPORTED_TEMPLATES: ProjectTemplate[] = [
   'angular-cli',
   'create-react-app',
   'html',

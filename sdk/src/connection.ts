@@ -1,4 +1,4 @@
-import { VM } from './VM';
+import { VM } from './vm';
 import { genID } from './helpers';
 
 const connections: Connection[] = [];

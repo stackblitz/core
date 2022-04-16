@@ -1,15 +1,3 @@
-interface ProjectSettings {
-  compile?: {
-    trigger?: 'auto' | 'keystroke' | 'save' | string;
-    action?: 'hmr' | 'refresh' | string;
-    clearConsole?: boolean;
-  };
-}
-
-export type ProjectTemplate = 'angular-cli' | 'create-react-app' | 'html' | 'javascript' | 'node' | 'polymer' | 'typescript' | 'vue';
-export type ProjectDependencies = { [name: string]: string };
-export type ProjectFiles = { [path: string]: string };
-
 export interface Project {
   title: string;
   description: string;
@@ -43,9 +31,31 @@ export interface Project {
   tags?: string[];
 }
 
-export type OpenFilePath = string | string[];
-export type UiView = 'default' | 'preview' | 'editor';
-export type UiTheme = 'default' | 'light' | 'dark';
+export type ProjectTemplate =
+  | 'angular-cli'
+  | 'create-react-app'
+  | 'html'
+  | 'javascript'
+  | 'node'
+  | 'polymer'
+  | 'typescript'
+  | 'vue';
+
+export interface ProjectDependencies {
+  [name: string]: string;
+}
+
+export interface ProjectFiles {
+  [path: string]: string;
+}
+
+export interface ProjectSettings {
+  compile?: {
+    trigger?: 'auto' | 'keystroke' | 'save' | string;
+    action?: 'hmr' | 'refresh' | string;
+    clearConsole?: boolean;
+  };
+}
 
 export interface ProjectOptions {
   /**
@@ -62,19 +72,19 @@ export interface ProjectOptions {
    *     // open three files in two side-by-side editor panes
    *     openFile: ['package.json,src/index.js', 'src/components/App.js']
    */
-  openFile?: OpenFilePath;
+  openFile?: OpenFileOption;
   /**
    * Show only the code editor or only the preview page.
    *
    * Defaults to showing both the editor and the preview.
    */
-  view?: UiView;
+  view?: UiViewOption;
   /**
    * Select the color theme for the editor UI.
    *
    * Available themes: `light` and `dark`.
    */
-  theme?: UiTheme;
+  theme?: UiThemeOption;
   /**
    * Height of the Console panel below the preview page (as a percentage number, between `0` and `100`).
    *
@@ -88,20 +98,14 @@ export interface ProjectOptions {
    */
   hideDevTools?: boolean;
   /**
-   * Hide the sidebar on page load.
-   *
-   * Users will still be able to open the sidebar by clicking one of the sidebar icons.
+   * Hide the ActivityBar (sidebar icons).
    */
   hideExplorer?: boolean;
   /**
-   * Hide the preview URL.
-   */
-  hideNavigation?: boolean;
-  /**
    * Use the “embed” layout of the editor.
-   * 
+   *
    * Defaults to `true` for `embedProject*` methods, and `false` for `openProject*` methods.
-   * 
+   *
    * @deprecated May be removed in a future release.
    */
   forceEmbedLayout?: boolean;
@@ -133,11 +137,14 @@ export interface EmbedOptions extends ProjectOptions {
    * Width of the embed iframe (defaults to `100%`)
    */
   width?: number | string;
+  /**
+   * Hide the preview URL in embeds.
+   */
+  hideNavigation?: boolean;
 }
 
-export interface FsDiff {
-  create: {
-    [path: string]: string;
-  };
-  destroy: string[];
-}
+export type OpenFileOption = string | string[];
+
+export type UiViewOption = 'default' | 'preview' | 'editor';
+
+export type UiThemeOption = 'default' | 'light' | 'dark';

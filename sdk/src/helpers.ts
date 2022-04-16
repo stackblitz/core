@@ -25,14 +25,14 @@ export function embedUrl(route: string, options?: EmbedOptions) {
   return `${getOrigin(config)}${route}${buildProjectQuery(config)}`;
 }
 
-function getOrigin(options: OpenOptions | EmbedOptions = {}) {
+function getOrigin(options: OpenOptions & EmbedOptions = {}) {
   if (typeof options.origin === 'string') {
     return options.origin;
   }
   return DEFAULT_ORIGIN;
 }
 
-function buildProjectQuery(options: OpenOptions | EmbedOptions = {}) {
+function buildProjectQuery(options: OpenOptions & EmbedOptions = {}) {
   const params: string[] = [];
 
   if (options.forceEmbedLayout) {
