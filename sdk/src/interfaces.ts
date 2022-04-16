@@ -141,11 +141,3 @@ export interface FsDiff {
   };
   destroy: string[];
 }
-
-export interface RequestData {
-  type: string;
-  payload: {
-    __reqid?: string;
-    [key: string]: any;
-  };
-}

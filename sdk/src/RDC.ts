@@ -1,57 +1,78 @@
-import { RequestData } from './interfaces';
 import { genID } from './helpers';
+
+interface MessageData {
+  type: string;
+  payload: MessagePayload;
+}
+
+interface MessagePayload {
+  __reqid: string;
+  __success: boolean;
+  __error?: string;
+  [key: string]: any;
+}
+
+interface RequestData {
+  type: string;
+  payload: { [key: string]: any };
+}
+
+interface PendingResolvers {
+  [id: string]: {
+    resolve(value: { [key: string]: any } | null): void;
+    reject(error: string): void;
+  };
+}
 
 export class RDC {
   private port: MessagePort;
-  private pending: {
-    [id: string]: {
-      resolve: Function;
-      reject: Function;
-    };
-  } = {};
+  private pending: PendingResolvers = {};
 
   constructor(port: MessagePort) {
     this.port = port;
-
-    this.port.onmessage = ({ data }) => {
-      // Handle if this is a response to a request
-      if (data?.payload?.__reqid) {
-        const reqid = data.payload.__reqid;
-        const success = data.payload.__success;
-
-        if (this.pending[reqid]) {
-          delete data.payload.__reqid;
-          delete data.payload.__success;
-
-          if (success) {
-            // Null the payload if empty object
-            const res =
-              Object.keys(data.payload).length === 0 && data.payload.constructor === Object
-                ? null
-                : data.payload;
-            this.pending[reqid].resolve(res);
-          } else {
-            const error = data.payload.error ? `${data.type}: ${data.payload.error}` : data.type;
-            this.pending[reqid].reject(error);
-          }
-
-          delete this.pending[reqid];
-        }
-      }
-    };
+    this.port.onmessage = this.messageListener.bind(this);
   }
 
-  // Always returns a promise; uniquely ID's messages being sent.
-  request<T = null>(data: RequestData): Promise<T | null> {
+  public request<T = null>({ type, payload }: RequestData): Promise<T | null> {
     // Generate request ID
     const id = genID();
     return new Promise((resolve, reject) => {
       this.pending[id] = { resolve, reject };
-
-      // Ensure the payload object includes the request ID
-      data.payload.__reqid = id;
-
-      this.port.postMessage(data);
+      this.port.postMessage({
+        type,
+        payload: {
+          ...payload,
+          // Ensure the payload object includes the request ID
+          __reqid: id,
+        },
+      });
     });
   }
+
+  private messageListener(event: MessageEvent<MessageData>) {
+    if (typeof event.data.payload?.__reqid !== 'string') {
+      return;
+    }
+
+    const { type, payload } = event.data;
+    const { __reqid: id, __success: success, __error: error } = payload;
+
+    if (this.pending[id]) {
+      if (success) {
+        this.pending[id].resolve(cleanResult(payload));
+      } else {
+        this.pending[id].reject(error ? `${type}: ${error}` : type);
+      }
+      delete this.pending[id];
+    }
+  }
+}
+
+function cleanResult(payload: MessagePayload): { [key: string]: any } | null {
+  const result: Partial<typeof payload> = { ...payload };
+  delete result.__reqid;
+  delete result.__success;
+  delete result.__error;
+  // Null the result if payload was empty besides the private metadata fields
+  return Object.keys(result).length ? result : null;
 }
