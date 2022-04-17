@@ -68,11 +68,31 @@ export class VM {
 
   public editor = {
     /**
-     * Open one of several files in tabs and/or split panes
+     * Open one of several files in tabs and/or split panes.
+     *
+     * @since 1.7.0 Added support for opening multiple files
      */
     openFile: (path: OpenFileOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_OPEN_FILE',
+        payload: { path },
+      });
+    },
+
+    /**
+     * Set a project file as the currently selected file.
+     * 
+     * - This may update the highlighted file in the file explorer,
+     *   and the currently open and/or focused editor tab.
+     * - It will _not_ open a new editor tab if the provided path does not
+     *   match a currently open tab. See `vm.editor.openFile` to open files.
+     *
+     * @since 1.7.0
+     * @experimental
+     */
+    setCurrentFile: (path: string): Promise<null> => {
+      return this._rdc.request({
+        type: 'SDK_SET_CURRENT_FILE',
         payload: { path },
       });
     },
@@ -90,7 +110,8 @@ export class VM {
     },
 
     /**
-     * Change the display mode of the project
+     * Change the display mode of the project:
+     *
      * - `default`: show the editor and preview pane
      * - `editor`: show the editor pane only
      * - `preview`: show the preview pane only
@@ -105,9 +126,10 @@ export class VM {
     },
 
     /**
-     * Change the display mode of the sidebar
-     * - true: show the sidebar
-     * - false: hide the sidebar
+     * Change the display mode of the sidebar:
+     *
+     * - `true`: show the sidebar
+     * - `false`: hide the sidebar
      *
      * @since 1.7.0
      */
