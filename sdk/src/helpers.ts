@@ -1,8 +1,6 @@
 import type { EmbedOptions, OpenOptions } from './interfaces';
+import { defaultFrameHeight, defaultOrigin } from './constants';
 import { buildParams } from './params';
-
-const DEFAULT_ORIGIN = 'https://stackblitz.com';
-const DEFAULT_FRAME_HEIGHT = '300';
 
 /**
  * Pseudo-random id string for internal accounting.
@@ -30,7 +28,7 @@ function getOrigin(options: OpenOptions & EmbedOptions = {}) {
   if (typeof options.origin === 'string') {
     return options.origin;
   }
-  return DEFAULT_ORIGIN;
+  return defaultOrigin;
 }
 
 export function replaceAndEmbed(
@@ -75,7 +73,7 @@ function setFrameDimensions(frame: HTMLIFrameElement, options?: EmbedOptions) {
   }
 
   if (!frame.height) {
-    frame.height = DEFAULT_FRAME_HEIGHT;
+    frame.height = `${defaultFrameHeight}`;
   }
   if (!frame.width) {
     frame.setAttribute('style', 'width:100%;');

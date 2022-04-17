@@ -1,5 +1,6 @@
-import { VM } from './vm';
+import { connectInterval, connectMaxAttempts } from './constants';
 import { genID } from './helpers';
+import { VM } from './vm';
 
 const connections: Connection[] = [];
 
@@ -22,15 +23,13 @@ export class Connection {
       };
 
       const pingFrame = () => {
-        // Ping the Iframe.
-        this.element.contentWindow &&
-          this.element.contentWindow.postMessage(
-            {
-              action: 'SDK_INIT',
-              id: this.id,
-            },
-            '*'
-          );
+        this.element.contentWindow?.postMessage(
+          {
+            action: 'SDK_INIT',
+            id: this.id,
+          },
+          '*'
+        );
       };
 
       // Remove the listener and interval.
@@ -43,9 +42,7 @@ export class Connection {
       window.addEventListener('message', listenForSuccess);
       // Then, lets immediately ping the frame.
       pingFrame();
-      // Every 500ms thereafter we'll ping until we get a response or timeout.
-      // Keep track of the current try # and the max #
-      const maxAttempts = 20;
+      // Keep track of the current try number
       let attempts = 0;
       const interval = window.setInterval(() => {
         // If the VM connection is open, cleanup and return
@@ -56,7 +53,7 @@ export class Connection {
         }
 
         // If we've exceeded the max retries, fail this promise.
-        if (attempts >= maxAttempts) {
+        if (attempts >= connectMaxAttempts) {
           cleanup();
           reject('Timeout: Unable to establish a connection with the StackBlitz VM');
           // Remove the (now) failed connection from the connections array
@@ -70,7 +67,7 @@ export class Connection {
 
         attempts++;
         pingFrame();
-      }, 500);
+      }, connectInterval);
     });
 
     connections.push(this);

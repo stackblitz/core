@@ -1,16 +1,6 @@
-import { Project, ProjectTemplate, EmbedOptions, OpenOptions } from './interfaces';
+import type { Project, EmbedOptions, OpenOptions } from './interfaces';
+import { projectTemplates } from './constants';
 import { embedUrl, openTarget, openUrl } from './helpers';
-
-const SUPPORTED_TEMPLATES: ProjectTemplate[] = [
-  'angular-cli',
-  'create-react-app',
-  'html',
-  'javascript',
-  'node',
-  'polymer',
-  'typescript',
-  'vue',
-];
 
 function createHiddenInput(name: string, value: string) {
   const input = document.createElement('input');
@@ -21,8 +11,9 @@ function createHiddenInput(name: string, value: string) {
 }
 
 function createProjectForm(project: Project) {
-  if (!SUPPORTED_TEMPLATES.includes(project.template)) {
-    console.warn(`Unsupported project.template: must be one of ${SUPPORTED_TEMPLATES.join(', ')}`);
+  if (!projectTemplates.includes(project.template)) {
+    const names = projectTemplates.map((t) => `'${t}'`).join(', ');
+    console.warn(`Unsupported project.template: must be one of ${names}`);
   }
 
   const isWebContainers = project.template === 'node';

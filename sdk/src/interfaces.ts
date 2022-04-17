@@ -1,3 +1,5 @@
+import type { projectTemplates } from './constants';
+
 export interface Project {
   title: string;
   description: string;
@@ -31,15 +33,7 @@ export interface Project {
   tags?: string[];
 }
 
-export type ProjectTemplate =
-  | 'angular-cli'
-  | 'create-react-app'
-  | 'html'
-  | 'javascript'
-  | 'node'
-  | 'polymer'
-  | 'typescript'
-  | 'vue';
+export type ProjectTemplate = typeof projectTemplates[number];
 
 export interface ProjectDependencies {
   [name: string]: string;
@@ -124,7 +118,7 @@ export interface ProjectOptions {
   clickToLoad?: boolean;
   /**
    * Set the origin URL of your StackBlitz EE server.
-   * 
+   *
    * Defaults to `https://stackblitz.com`.
    */
   origin?: string;
