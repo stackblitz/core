@@ -1,5 +1,5 @@
 import type { EmbedOptions, OpenOptions } from './interfaces';
-import { defaultFrameHeight, defaultOrigin } from './constants';
+import { DEFAULT_FRAME_HEIGHT, DEFAULT_ORIGIN } from './constants';
 import { buildParams } from './params';
 
 /**
@@ -28,7 +28,7 @@ function getOrigin(options: OpenOptions & EmbedOptions = {}) {
   if (typeof options.origin === 'string') {
     return options.origin;
   }
-  return defaultOrigin;
+  return DEFAULT_ORIGIN;
 }
 
 export function replaceAndEmbed(
@@ -73,7 +73,7 @@ function setFrameDimensions(frame: HTMLIFrameElement, options?: EmbedOptions) {
   }
 
   if (!frame.height) {
-    frame.height = `${defaultFrameHeight}`;
+    frame.height = `${DEFAULT_FRAME_HEIGHT}`;
   }
   if (!frame.width) {
     frame.setAttribute('style', 'width:100%;');

@@ -1,4 +1,4 @@
-import type { projectTemplates } from './constants';
+import type { PROJECT_TEMPLATES } from './constants';
 
 export interface Project {
   title: string;
@@ -33,7 +33,7 @@ export interface Project {
   tags?: string[];
 }
 
-export type ProjectTemplate = typeof projectTemplates[number];
+export type ProjectTemplate = typeof PROJECT_TEMPLATES[number];
 
 export interface ProjectDependencies {
   [name: string]: string;

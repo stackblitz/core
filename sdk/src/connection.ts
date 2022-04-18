@@ -1,4 +1,4 @@
-import { connectInterval, connectMaxAttempts } from './constants';
+import { CONNECT_INTERVAL, CONNECT_MAX_ATTEMPTS } from './constants';
 import { genID } from './helpers';
 import { VM } from './vm';
 
@@ -53,7 +53,7 @@ export class Connection {
         }
 
         // If we've exceeded the max retries, fail this promise.
-        if (attempts >= connectMaxAttempts) {
+        if (attempts >= CONNECT_MAX_ATTEMPTS) {
           cleanup();
           reject('Timeout: Unable to establish a connection with the StackBlitz VM');
           // Remove the (now) failed connection from the connections array
@@ -67,7 +67,7 @@ export class Connection {
 
         attempts++;
         pingFrame();
-      }, connectInterval);
+      }, CONNECT_INTERVAL);
     });
 
     connections.push(this);

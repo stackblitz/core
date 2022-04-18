@@ -1,5 +1,5 @@
 import type { Project, EmbedOptions, OpenOptions } from './interfaces';
-import { projectTemplates } from './constants';
+import { PROJECT_TEMPLATES } from './constants';
 import { embedUrl, openTarget, openUrl } from './helpers';
 
 function createHiddenInput(name: string, value: string) {
@@ -11,8 +11,8 @@ function createHiddenInput(name: string, value: string) {
 }
 
 function createProjectForm(project: Project) {
-  if (!projectTemplates.includes(project.template)) {
-    const names = projectTemplates.map((t) => `'${t}'`).join(', ');
+  if (!PROJECT_TEMPLATES.includes(project.template)) {
+    const names = PROJECT_TEMPLATES.map((t) => `'${t}'`).join(', ');
     console.warn(`Unsupported project.template: must be one of ${names}`);
   }
 
