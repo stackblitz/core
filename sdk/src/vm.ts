@@ -1,12 +1,18 @@
 import type {
-  FsDiff,
-  OpenFilePath,
+  OpenFileOption,
   ProjectDependencies,
   ProjectFiles,
-  UiTheme,
-  UiView,
+  UiThemeOption,
+  UiViewOption,
 } from './interfaces';
-import { RDC } from './RDC';
+import { RDC } from './rdc';
+
+export interface FsDiff {
+  create: {
+    [path: string]: string;
+  };
+  destroy: string[];
+}
 
 export class VM {
   private _rdc: RDC;
@@ -62,11 +68,31 @@ export class VM {
 
   public editor = {
     /**
-     * Open one of several files in tabs and/or split panes
+     * Open one of several files in tabs and/or split panes.
+     *
+     * @since 1.7.0 Added support for opening multiple files
      */
-    openFile: (path: OpenFilePath): Promise<null> => {
+    openFile: (path: OpenFileOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_OPEN_FILE',
+        payload: { path },
+      });
+    },
+
+    /**
+     * Set a project file as the currently selected file.
+     * 
+     * - This may update the highlighted file in the file explorer,
+     *   and the currently open and/or focused editor tab.
+     * - It will _not_ open a new editor tab if the provided path does not
+     *   match a currently open tab. See `vm.editor.openFile` to open files.
+     *
+     * @since 1.7.0
+     * @experimental
+     */
+    setCurrentFile: (path: string): Promise<null> => {
+      return this._rdc.request({
+        type: 'SDK_SET_CURRENT_FILE',
         payload: { path },
       });
     },
@@ -76,7 +102,7 @@ export class VM {
      *
      * @since 1.7.0
      */
-    setTheme: (theme: UiTheme): Promise<null> => {
+    setTheme: (theme: UiThemeOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_SET_UI_THEME',
         payload: { theme },
@@ -84,14 +110,15 @@ export class VM {
     },
 
     /**
-     * Change the display mode of the project
+     * Change the display mode of the project:
+     *
      * - `default`: show the editor and preview pane
      * - `editor`: show the editor pane only
      * - `preview`: show the preview pane only
      *
      * @since 1.7.0
      */
-    setView: (view: UiView): Promise<null> => {
+    setView: (view: UiViewOption): Promise<null> => {
       return this._rdc.request({
         type: 'SDK_SET_UI_VIEW',
         payload: { view },
@@ -99,9 +126,10 @@ export class VM {
     },
 
     /**
-     * Change the display mode of the sidebar
-     * - true: show the sidebar
-     * - false: hide the sidebar
+     * Change the display mode of the sidebar:
+     *
+     * - `true`: show the sidebar
+     * - `false`: hide the sidebar
      *
      * @since 1.7.0
      */
@@ -137,10 +165,12 @@ export class VM {
      * @experimental
      */
     getUrl: (): Promise<string | null> => {
-      return this._rdc.request<string | null>({
-        type: 'SDK_GET_PREVIEW_URL',
-        payload: {},
-      });
+      return this._rdc
+        .request<{ url: string } | null>({
+          type: 'SDK_GET_PREVIEW_URL',
+          payload: {},
+        })
+        .then((data) => data?.url ?? null);
     },
 
     /**
@@ -153,6 +183,9 @@ export class VM {
      * @experimental
      */
     setUrl: (path: string = '/'): Promise<null> => {
+      if (typeof path !== 'string' || !path.startsWith('/')) {
+        throw new Error(`Invalid argument: expected a path starting with '/', got '${path}'`);
+      }
       return this._rdc.request<null>({
         type: 'SDK_SET_PREVIEW_URL',
         payload: { path },

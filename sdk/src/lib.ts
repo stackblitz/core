@@ -1,5 +1,5 @@
 import type { Project, OpenOptions, EmbedOptions } from './interfaces';
-import type { VM } from './VM';
+import type { VM } from './vm';
 import { Connection, getConnection } from './connection';
 import { openNewProject, createProjectFrameHTML } from './generate';
 import { embedUrl, findElement, openTarget, openUrl, replaceAndEmbed } from './helpers';

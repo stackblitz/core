@@ -1,7 +1,6 @@
-import { EmbedOptions, OpenOptions } from './interfaces';
-
-const DEFAULT_ORIGIN = 'https://stackblitz.com';
-const DEFAULT_FRAME_HEIGHT = '300';
+import type { EmbedOptions, OpenOptions } from './interfaces';
+import { DEFAULT_FRAME_HEIGHT, DEFAULT_ORIGIN } from './constants';
+import { buildParams } from './params';
 
 /**
  * Pseudo-random id string for internal accounting.
@@ -12,7 +11,7 @@ export function genID() {
 }
 
 export function openUrl(route: string, options?: OpenOptions) {
-  return `${getOrigin(options)}${route}${buildProjectQuery(options)}`;
+  return `${getOrigin(options)}${route}${buildParams(options)}`;
 }
 
 export function embedUrl(route: string, options?: EmbedOptions) {
@@ -22,62 +21,14 @@ export function embedUrl(route: string, options?: EmbedOptions) {
   if (options && typeof options === 'object') {
     Object.assign(config, options);
   }
-  return `${getOrigin(config)}${route}${buildProjectQuery(config)}`;
+  return `${getOrigin(config)}${route}${buildParams(config)}`;
 }
 
-function getOrigin(options: OpenOptions | EmbedOptions = {}) {
+function getOrigin(options: OpenOptions & EmbedOptions = {}) {
   if (typeof options.origin === 'string') {
     return options.origin;
   }
   return DEFAULT_ORIGIN;
-}
-
-function buildProjectQuery(options: OpenOptions | EmbedOptions = {}) {
-  const params: string[] = [];
-
-  if (options.forceEmbedLayout) {
-    params.push('embed=1');
-  }
-
-  if (options.clickToLoad) {
-    params.push('ctl=1');
-  }
-
-  for (const file of Array.isArray(options.openFile) ? options.openFile : [options.openFile]) {
-    if (typeof file === 'string' && file.trim() !== '') {
-      params.push(`file=${encodeURIComponent(file.trim())}`);
-    }
-  }
-
-  if (options.view === 'preview' || options.view === 'editor') {
-    params.push(`view=${options.view}`);
-  }
-
-  if (options.theme === 'light' || options.theme === 'dark') {
-    params.push(`theme=${options.theme}`);
-  }
-
-  if (options.hideExplorer) {
-    params.push('hideExplorer=1');
-  }
-
-  if (options.hideNavigation) {
-    params.push('hideNavigation=1');
-  }
-
-  if (options.hideDevTools) {
-    params.push('hideDevTools=1');
-  }
-
-  if (
-    typeof options.devToolsHeight === 'number' &&
-    options.devToolsHeight >= 0 &&
-    options.devToolsHeight <= 100
-  ) {
-    params.push(`devToolsHeight=${Math.round(options.devToolsHeight)}`);
-  }
-
-  return params.length ? `?${params.join('&')}` : '';
 }
 
 export function replaceAndEmbed(
@@ -122,7 +73,7 @@ function setFrameDimensions(frame: HTMLIFrameElement, options?: EmbedOptions) {
   }
 
   if (!frame.height) {
-    frame.height = DEFAULT_FRAME_HEIGHT;
+    frame.height = `${DEFAULT_FRAME_HEIGHT}`;
   }
   if (!frame.width) {
     frame.setAttribute('style', 'width:100%;');
