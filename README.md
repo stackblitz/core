@@ -17,3 +17,11 @@ We recommend [reading the write-up](https://medium.com/@ericsimons/introducing-t
 ### Documentation
 
 __Check out our docs at [developer.stackblitz.com](https://developer.stackblitz.com/)__
+
+
+### Add your github repository
+
+Go to [stackblitz](https://stackblitz.com/), then click on sign in and sign in with your [github](https://github.com/) account credential. Click on _New Project_ and select your technology. 
+[Blank project](https://i.ibb.co/Lp8rkfK/image-blank-project.jpg)
+Click on _Connect repository_ and then click on  _import an existing repository_. 
+Now you have to paste the github repository URL.
