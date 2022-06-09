@@ -11,6 +11,7 @@ const generators: Record<keyof Options, (value: any) => string> = {
   hideNavigation: (value: Options['hideNavigation']) => trueParam('hideNavigation', value),
   showSidebar: (value: Options['showSidebar']) => booleanParam('showSidebar', value),
   openFile: (value: Options['openFile']) => stringParams('file', value).join('&'),
+  terminalHeight: (value: Options['terminalHeight']) => percentParam('terminalHeight', value),
   theme: (value: Options['theme']) => enumParam('theme', ['light', 'dark'], value),
   view: (value: Options['view']) => enumParam('view', ['preview', 'editor'], value),
 };
