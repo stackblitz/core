@@ -80,6 +80,14 @@ export interface ProjectOptions {
    */
   theme?: UiThemeOption;
   /**
+   * Height of the Terminal panel below the editor (as a percentage number).
+   * 
+   * Values such as `0` and `100` may not be applied as-is, but result instead in the minimum or maximum height allowed for the Terminal.
+   *
+   * The Terminal only appears in WebContainers-based projects.
+   */
+  terminalHeight?: number;
+  /**
    * Height of the Console panel below the preview page (as a percentage number, between `0` and `100`).
    *
    * By default, the Console will appear collapsed, and can be opened by users.
