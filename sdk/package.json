@@ -1,6 +1,6 @@
 {
   "name": "@stackblitz/sdk",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "SDK for generating and embedding StackBlitz projects.",
   "main": "./bundles/sdk.js",
   "module": "./bundles/sdk.m.js",
@@ -14,7 +14,10 @@
   },
   "files": [
     "bundles",
-    "typings"
+    "typings",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "README.md"
   ],
   "author": "Eric Simons",
   "license": "MIT",
