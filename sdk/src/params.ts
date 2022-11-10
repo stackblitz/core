@@ -4,9 +4,9 @@ type Options = Omit<OpenOptions & EmbedOptions, 'origin' | 'newWindow' | 'height
 
 const generators: Record<keyof Options, (value: any) => string> = {
   clickToLoad: (value: Options['clickToLoad']) => trueParam('ctl', value),
-  devToolsHeight: (value: Options['devToolsHeight']) => percentParam('devToolsHeight', value),
+  devToolsHeight: (value: Options['devToolsHeight']) => percentParam('devtoolsheight', value),
   forceEmbedLayout: (value: Options['forceEmbedLayout']) => trueParam('embed', value),
-  hideDevTools: (value: Options['hideDevTools']) => trueParam('hideDevTools', value),
+  hideDevTools: (value: Options['hideDevTools']) => trueParam('hidedevtools', value),
   hideExplorer: (value: Options['hideExplorer']) => trueParam('hideExplorer', value),
   hideNavigation: (value: Options['hideNavigation']) => trueParam('hideNavigation', value),
   showSidebar: (value: Options['showSidebar']) => booleanParam('showSidebar', value),

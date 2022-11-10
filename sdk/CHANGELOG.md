@@ -1,21 +1,25 @@
 # @stackblitz/sdk changelog
 
+## v1.8.1 (2022-11-10)
+
+- Fixed the case of the URL query parameters for the `hideDevTools` and `devToolsHeight` options, for backwards compatibility with StackBlitz EE. (#2154)
+
 ## v1.8.0 (2022-06-09)
 
 - Added a `terminalHeight` option, used to set a preferred height for the Terminal in WebContainers-based projects. (#1891)
 
 ## v1.7.0 (2022-05-09)
 
-- TypeScript: improved the precision and inline documentation of types such as `Project`, `EmbedOptions`, `OpenOptions` and `VM`. Made those types directly importable with `import type { Project } from '@stackblitz/sdk'` (#1775, #1779, #1837).
-- Added support for opening multiple files in an embedded projects with the `vm.editor.openFile` method (#1810).
-- Added new methods to the `VM` class for controlling the embedded editor’s UI: `vm.editor.setCurrentFile`, `vm.editor.setTheme`, `vm.editor.setView`, `vm.editor.showSidebar`, `vm.preview.getUrl`, `vm.preview.setUrl` (#1810, #1837).
-- Added new `showSidebar` option (#1837).
-- Added source maps to the published bundle files (#1776).
-- Fixed the default value of the `forceEmbedLayout` option (#1817).
+- TypeScript: improved the precision and inline documentation of types such as `Project`, `EmbedOptions`, `OpenOptions` and `VM`. Made those types directly importable with `import type { Project } from '@stackblitz/sdk'`. (#1775, #1779, #1837)
+- Added support for opening multiple files in an embedded projects with the `vm.editor.openFile` method. (#1810)
+- Added new methods to the `VM` class for controlling the embedded editor’s UI: `vm.editor.setCurrentFile`, `vm.editor.setTheme`, `vm.editor.setView`, `vm.editor.showSidebar`, `vm.preview.getUrl`, `vm.preview.setUrl`. (#1810, #1837)
+- Added new `showSidebar` option. (#1837)
+- Added source maps to the published bundle files. (#1776)
+- Fixed the default value of the `forceEmbedLayout` option. (#1817)
 
 ## v1.6.0 (2022-03-02)
 
-- Add support for opening multiple files with the openFile parameter, with support for multiple tabs (`openFile: 'index.html,src/index.js'`) and split editor panes (`openFile: ['index.html', 'src/index.js]`) (#1758).
+- Add support for opening multiple files with the openFile parameter, with support for multiple tabs (`openFile: 'index.html,src/index.js'`) and split editor panes (`openFile: ['index.html', 'src/index.js]`). (#1758)
 
 ## v1.5.6 (2022-02-04)
 
