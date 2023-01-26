@@ -10,6 +10,16 @@ function createHiddenInput(name: string, value: string) {
   return input;
 }
 
+/**
+ * Encode file paths for use in input name attributes.
+ * We need to replace square brackets (as used by Next.js, SvelteKit, etc.),
+ * with custom escape sequences. Important: do not encodeURIComponent the
+ * whole path, for compatibility with the StackBlitz backend.
+ */
+function bracketedFilePath(path: string) {
+  return `[${path.replace(/\[/g, '%5B').replace(/\]/g, '%5D')}]`;
+}
+
 function createProjectForm(project: Project) {
   if (!PROJECT_TEMPLATES.includes(project.template)) {
     const names = PROJECT_TEMPLATES.map((t) => `'${t}'`).join(', ');
@@ -43,8 +53,10 @@ function createProjectForm(project: Project) {
   }
 
   Object.keys(project.files).forEach((path) => {
-    if (typeof project.files[path] === 'string') {
-      form.appendChild(createHiddenInput(`project[files][${path}]`, project.files[path]));
+    const name = 'project[files]' + bracketedFilePath(path);
+    const value = project.files[path];
+    if (typeof value === 'string') {
+      form.appendChild(createHiddenInput(name, value));
     }
   });
 
