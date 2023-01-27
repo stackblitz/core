@@ -1,5 +1,9 @@
 # @stackblitz/sdk changelog
 
+## v1.8.2 (2023-01-26)
+
+- Fixed using the characters `[]` in file paths with the `embedProject` and `openProject` methods. (#2295)
+
 ## v1.8.1 (2022-11-10)
 
 - Fixed the case of the URL query parameters for the `hideDevTools` and `devToolsHeight` options, for backwards compatibility with StackBlitz EE. (#2154)
