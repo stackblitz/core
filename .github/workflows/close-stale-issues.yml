@@ -26,20 +26,23 @@ jobs:
         CUSTOM_MESSAGE: 'Appologies that we were unable to address this issue in a timely manner! Given that we have millions of free users this has been a challenge that we are working on over time. This issue is being closed in order to allow us to focus on resolving more recently active issues. If this issue is still meaningful, please feel free to comment an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
       run: |
         set -e  # Stop the script if any command fails
+        set -x  # Echo each command before executing it
+
         page=1
         while : ; do
           echo "Fetching page $page of issues..."
-          # Fetch a page of issues with the specific label
-          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+          response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
                -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page" \
-               -o issues.json
+               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
 
-          # Check for curl command success
+          # Check if curl command succeeded
           if [ $? -ne 0 ]; then
             echo "Curl command failed."
             exit 1
           fi
+
+          # Write to issues.json file for jq processing
+          echo $response > issues.json
 
           # Exit loop if no issues are returned
           if [ $(jq length issues.json) -eq 0 ]; then
@@ -50,7 +53,7 @@ jobs:
           echo "Closing issues..."
           # Close issues
           jq -c '.[] | .number' issues.json | while read -r issue; do
-            RESPONSE=$(curl -s -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
+            RESPONSE=$(curl -sS -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
                   -H "Accept: application/vnd.github.v3+json" \
                   "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue" \
                   -d "{\"state\": \"closed\", \"body\": \"$CUSTOM_MESSAGE\"}")
