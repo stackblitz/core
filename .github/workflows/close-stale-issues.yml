@@ -23,7 +23,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LABEL_NAME: 'Status%3A%20Stale'
-        CUSTOM_MESSAGE: 'Appologies that we were unable to address this issue in a timely manner! Given that we have millions of free users this has been a challenge that we are working on over time. This issue is being closed in order to allow us to focus on resolving more recently active issues. If this issue is still meaningful, please feel free to comment an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
+        CUSTOM_MESSAGE: 'Appologies that we were unable to address this issue in a timely manner! \\n Given that we have millions of free users this has been a challenge, and we are working to improve over time. As part of an effort to focus on driving the most recent issues to resolution, this issue is being closed. \\n If this issue is still meaningful, please comment with an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
       run: |
         set -e  # Stop the script if any command fails
         set -x  # Echo each command before executing it
@@ -35,28 +35,36 @@ jobs:
                -H "Accept: application/vnd.github.v3+json" \
                "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
 
-          # Check if curl command succeeded
-          if [ $? -ne 0 ]; then
-            echo "Curl command failed."
-            exit 1
-          fi
-
-          # Write to issues.json file for jq processing
           echo $response > issues.json
 
-          # Exit loop if no issues are returned
           if [ $(jq length issues.json) -eq 0 ]; then
             echo "No more issues found."
             break
           fi
 
-          echo "Closing issues..."
-          # Close issues
+          echo "Commenting and closing issues..."
           jq -c '.[] | .number' issues.json | while read -r issue; do
+            # Comment on the issue
+            COMMENT_RESPONSE=$(curl -sS -w "%{http_code}" -X POST -H "Authorization: token $GITHUB_TOKEN" \
+                  -H "Accept: application/vnd.github.v3+json" \
+                  "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue/comments" \
+                  -d "{\"body\": \"$CUSTOM_MESSAGE\"}")
+
+            HTTP_STATUS=$(echo $COMMENT_RESPONSE | rev | cut -c 1-3 | rev)
+            RESPONSE_BODY=$(echo $COMMENT_RESPONSE | rev | cut -c 4- | rev)
+
+            if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+              echo "Successfully commented on issue $issue."
+            else
+              echo "Failed to comment on issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+              exit 1
+            fi
+
+            # Close the issue
             RESPONSE=$(curl -sS -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
                   -H "Accept: application/vnd.github.v3+json" \
                   "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue" \
-                  -d "{\"state\": \"closed\", \"body\": \"$CUSTOM_MESSAGE\"}")
+                  -d "{\"state\": \"closed\"}")
 
             HTTP_STATUS=$(echo $RESPONSE | rev | cut -c 1-3 | rev)
             RESPONSE_BODY=$(echo $RESPONSE | rev | cut -c 4- | rev)
@@ -68,6 +76,10 @@ jobs:
               exit 1
             fi
           done
+          
+          ((page++))
+        done
+  
 
           # Move to the next page
           ((page++))
