@@ -22,7 +22,7 @@ jobs:
     - name: Close Issues
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LABEL_NAME: 'Status: Stale'
+        LABEL_NAME: 'Status%3A%20Stale'
         CUSTOM_MESSAGE: 'Appologies that we were unable to address this issue in a timely manner! Given that we have millions of free users this has been a challenge that we are working on over time. This issue is being closed in order to allow us to focus on resolving more recently active issues. If this issue is still meaningful, please feel free to comment an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
       run: |
         set -e  # Stop the script if any command fails
