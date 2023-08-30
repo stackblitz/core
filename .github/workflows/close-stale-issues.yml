@@ -23,7 +23,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LABEL_NAME: 'Status%3A%20Stale'
-        CUSTOM_MESSAGE: 'Apologies that we were unable to address this issue in a timely manner! \n Given that we have millions of free users this has been a challenge, and we are working to improve over time. As part of an effort to focus on driving the most recent issues to resolution, this issue is being closed. \n If this issue is still meaningful, please comment with an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
+        CUSTOM_MESSAGE: 'Apologies that we were unable to address this issue in a timely manner! \n \n Given that we have millions of free users this has been a challenge, and we are working to improve over time. As part of an effort to focus on driving the most recent issues to resolution, this issue is being closed. \n \n If this issue is still meaningful, please comment with an update and re-open the issue for troubleshooting! Thanks for your continued loyalty to the StackBlitz platform over the years!'
       run: |
         set -e  # Stop the script if any command fails
         set -x  # Echo each command before executing it
@@ -77,8 +77,5 @@ jobs:
             fi
           done
           
-          ((page++))
-        done
-          # Move to the next page
           ((page++))
         done
