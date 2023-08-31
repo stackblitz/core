@@ -1,0 +1,95 @@
+name: Close Issues with Tag Needs Repro Link After 1 Week of Inactivity
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run every day at midnight
+  workflow_dispatch:    # Allows manual triggering
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+
+    - name: Install jq and date command
+      run: sudo apt-get update && sudo apt-get install -y jq dateutils
+
+    - name: Close Inactive Issues that are missing Repro Link
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        LABEL_NAME: 'Status%3A%20Needs%20a%20reproduction%20link'
+        CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 7 days without a reproduction link, it will be temporarily closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link and re-open the issue! Thanks for your diligence in helping us continuosly improve the StackBlitz platform.'
+      run: |
+        set -e  # Stop the script if any command fails
+        set -x  # Echo each command before executing it
+
+        page=1
+        while : ; do
+          echo "Fetching page $page of issues..."
+          response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
+               -H "Accept: application/vnd.github.v3+json" \
+               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
+
+          echo $response > issues.json
+
+          if [ $(jq length issues.json) -eq 0 ]; then
+            echo "No more issues found."
+            break
+          fi
+
+          echo "Commenting and closing issues..."
+          jq -c '.[] | {number: .number, updated_at: .updated_at}' issues.json | while read -r line; do
+            issue=$(echo $line | jq -r '.number')
+            updated_at=$(echo $line | jq -r '.updated_at')
+
+            # Check if one week has passed since last updated
+            current_time=$(date --utc +'%Y-%m-%dT%H:%M:%SZ')
+            is_week_old=$(dateutils.ddiff "$updated_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 168) print "yes"; else print "no";}')
+
+            if [ "$is_week_old" = "yes" ]; then
+              echo "Commenting and closing issues..."
+              jq -c '.[] | .number' issues.json | while read -r issue; do
+                # Comment on the issue
+                COMMENT_RESPONSE=$(curl -sS -w "%{http_code}" -X POST -H "Authorization: token $GITHUB_TOKEN" \
+                      -H "Accept: application/vnd.github.v3+json" \
+                      "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue/comments" \
+                      -d "{\"body\": \"$CUSTOM_MESSAGE\"}")
+    
+                HTTP_STATUS=$(echo $COMMENT_RESPONSE | rev | cut -c 1-3 | rev)
+                RESPONSE_BODY=$(echo $COMMENT_RESPONSE | rev | cut -c 4- | rev)
+    
+                if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+                  echo "Successfully commented on issue $issue."
+                else
+                  echo "Failed to comment on issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                  exit 1
+                fi
+    
+                # Close the issue
+                RESPONSE=$(curl -sS -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
+                      -H "Accept: application/vnd.github.v3+json" \
+                      "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue" \
+                      -d "{\"state\": \"closed\"}")
+    
+                HTTP_STATUS=$(echo $RESPONSE | rev | cut -c 1-3 | rev)
+                RESPONSE_BODY=$(echo $RESPONSE | rev | cut -c 4- | rev)
+    
+                if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+                  echo "Successfully closed issue $issue."
+                else
+                  echo "Failed to close issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                  exit 1
+                fi
+              done
+            else
+              echo "Issue $issue is not yet a week old. Skipping."
+            fi
+          done
+          
+          ((page++))
+        done
