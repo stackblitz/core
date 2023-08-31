@@ -54,7 +54,7 @@ jobs:
             echo $timeline > timeline.json
 
             # Find the time when the label was added
-            label_added_at=$(jq -c --arg label "$LABEL_NAME" 'map(select(.event=="labeled" and (.label.name | contains($label)))) | .[0].created_at' timeline.json)
+            label_added_at=$(jq -c 'map(select(.event=="labeled" and (.label.name | contains("'$LABEL_NAME'")))) | .[0].created_at' timeline.json)
 
             if [ "$label_added_at" != "null" ]; then
               label_added_at=$(echo $label_added_at | jq -r)
