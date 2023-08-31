@@ -3,7 +3,7 @@ name: Close Issues with Tag Needs Repro Link After 1 Week of Inactivity
 on:
   schedule:
     - cron: '0 0 * * *'  # Run every day at midnight
-  workflow_dispatch:    # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   close-issues:
@@ -22,18 +22,19 @@ jobs:
     - name: Close Inactive Issues that are missing Repro Link
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        LABEL_NAME: 'Status%3A%20Needs%20a%20reproduction%20link'
+        LABEL_NAME: 'Status: Needs a reproduction link'
+        LABEL_NAME_URL: 'Status%3A%20Needs%20a%20reproduction%20link'
         CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 7 days without a reproduction link, it will be temporarily closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link and re-open the issue! Thanks for your diligence in helping us continuosly improve the StackBlitz platform.'
       run: |
-        set -e  # Stop the script if any command fails
-        set -x  # Echo each command before executing it
+        set -e
+        set -x
 
         page=1
         while : ; do
           echo "Fetching page $page of issues..."
           response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
-               -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME_URL&per_page=100&page=$page")
 
           echo $response > issues.json
 
@@ -42,52 +43,65 @@ jobs:
             break
           fi
 
-          echo "Commenting and closing issues..."
-          jq -c '.[] | {number: .number, updated_at: .updated_at}' issues.json | while read -r line; do
+          echo "Checking issues for closure..."
+          jq -c '.[] | {number: .number}' issues.json | while read -r line; do
             issue=$(echo $line | jq -r '.number')
-            updated_at=$(echo $line | jq -r '.updated_at')
 
-            # Check if one week has passed since last updated
-            current_time=$(date --utc +'%Y-%m-%dT%H:%M:%SZ')
-            is_week_old=$(dateutils.ddiff "$updated_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 168) print "yes"; else print "no";}')
+            timeline=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
+                -H "Accept: application/vnd.github.mockingbird-preview" \
+                "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue/timeline")
+                
+            echo $timeline > timeline.json
 
-            if [ "$is_week_old" = "yes" ]; then
-              echo "Commenting and closing issues..."
-              jq -c '.[] | .number' issues.json | while read -r issue; do
+            # Find the time when the label was added
+            label_added_at=$(jq -c "map(select(.event==\"labeled\" and .label.name | contains(\"$LABEL_NAME\"))) | .[0].created_at" timeline.json)
+
+            if [ "$label_added_at" != "null" ]; then
+              label_added_at=$(echo $label_added_at | jq -r)
+              
+              # Check if there has been any activity after the label was added
+              has_activity_after_label=$(jq -c "map(select(.created_at > \"$label_added_at\")) | length" timeline.json)
+
+              # Check if at least 168 hours have passed since the label was added
+              current_time=$(date --utc +'%Y-%m-%dT%H:%M:%SZ')
+              is_week_old=$(dateutils.ddiff "$label_added_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 168) print "yes"; else print "no";}')
+
+              if [ "$is_week_old" = "yes" ] && [ "$has_activity_after_label" = "0" ]; then
+                echo "Commenting and closing issue $issue..."
                 # Comment on the issue
                 COMMENT_RESPONSE=$(curl -sS -w "%{http_code}" -X POST -H "Authorization: token $GITHUB_TOKEN" \
                       -H "Accept: application/vnd.github.v3+json" \
                       "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue/comments" \
                       -d "{\"body\": \"$CUSTOM_MESSAGE\"}")
-    
+
                 HTTP_STATUS=$(echo $COMMENT_RESPONSE | rev | cut -c 1-3 | rev)
-                RESPONSE_BODY=$(echo $COMMENT_RESPONSE | rev | cut -c 4- | rev)
-    
+
                 if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
                   echo "Successfully commented on issue $issue."
                 else
-                  echo "Failed to comment on issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                  echo "Failed to comment on issue $issue. HTTP Status: $HTTP_STATUS"
                   exit 1
                 fi
-    
+
                 # Close the issue
                 RESPONSE=$(curl -sS -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
                       -H "Accept: application/vnd.github.v3+json" \
                       "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue" \
                       -d "{\"state\": \"closed\"}")
-    
+
                 HTTP_STATUS=$(echo $RESPONSE | rev | cut -c 1-3 | rev)
-                RESPONSE_BODY=$(echo $RESPONSE | rev | cut -c 4- | rev)
-    
+
                 if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
                   echo "Successfully closed issue $issue."
                 else
-                  echo "Failed to close issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                  echo "Failed to close issue $issue. HTTP Status: $HTTP_STATUS"
                   exit 1
                 fi
-              done
+              else
+                echo "Issue $issue does not meet closure criteria. Skipping."
+              fi
             else
-              echo "Issue $issue is not yet a week old. Skipping."
+              echo "Label not found for issue $issue. Skipping."
             fi
           done
           
