@@ -64,7 +64,7 @@ jobs:
 
               # Check if at least 168 hours have passed since the label was added
               current_time=$(date --utc +'%Y-%m-%dT%H:%M:%SZ')
-              is_week_old=$(dateutils.ddiff "$label_added_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 30) print "yes"; else print "no";}')
+              is_week_old=$(dateutils.ddiff "$label_added_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 168) print "yes"; else print "no";}')
 
               if [ "$is_week_old" = "yes" ] && [ "$has_activity_after_label" = "0" ]; then
                 echo "Commenting and closing issue $issue..."
