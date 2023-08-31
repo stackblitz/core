@@ -24,7 +24,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LABEL_NAME: 'Status: Needs a reproduction link'
         LABEL_NAME_URL: 'Status%3A%20Needs%20a%20reproduction%20link'
-        CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 7 days without a reproduction link, it will be temporarily closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link and re-open the issue! Thanks for your diligence in helping us continuosly improve the StackBlitz platform.'
+        CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 7 days without a reproduction link, it will be temporarily closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link and re-open the issue! Thanks for your diligence in helping us continuously improve the StackBlitz platform.'
       run: |
         set -e
         set -x
