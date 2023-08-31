@@ -1,3 +1,4 @@
+name: Close Issues with Blank Description
 on:
   issues:
     types: [opened]
