@@ -1,19 +1,20 @@
 # StackBlitz — Your local env, now in the browser
 
-[![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/stackblitz)
+[![Chat on Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/stackblitz)&nbsp; [![Read our docs](https://img.shields.io/badge/read-our%20docs-1374ef.svg)](https://developer.stackblitz.com)
 
-Welcome to the StackBlitz GitHub repo!
+Welcome to the StackBlitz GitHub repository!
 
-This repo serves as our primary way of [keeping track of bugs](https://github.com/stackblitz/core/issues) & central location where we publish our internal packages. If you have any questions/ideas/feedback, feel free to open an issue or come chat with us on [Discord](https://discord.gg/stackblitz)!
+This repository serves as our primary way of [keeping track of bugs](https://github.com/stackblitz/core/issues). If you have any questions/ideas/feedback, feel free to [open an issue](https://github.com/stackblitz/core/issues/new/choose), or come chat with us on [Discord](https://discord.gg/stackblitz)!
 
-### Just learning about StackBlitz?
+## Learn more
 
-Take a look at our [announcement post](https://medium.com/@ericsimons/stackblitz-online-vs-code-ide-for-angular-react-7d09348497f4) which covers our core functionality, feature set and motivations behind the project.
+- [Read our docs](https://developer.stackblitz.com/) to learn about our features for developers, open-source and design system maintainers, and more.
+- [Check out our blog](https://blog.stackblitz.com/) for all the latest news, and deep dives in the Web technologies that power StackBlitz.
 
-### Curious how our technology works?
+## Other repositories
 
-We recommend [reading the write-up](https://medium.com/@ericsimons/introducing-turbo-5x-faster-than-yarn-npm-and-runs-natively-in-browser-cc2c39715403) we did and exploring the code in this GitHub repo.
-
-### Documentation
-
-__Check out our docs at [developer.stackblitz.com](https://developer.stackblitz.com/)__
+- StackBlitz docs: [stackblitz/docs](https://github.com/stackblitz/docs)
+- StackBlitz SDK: [stackblitz/sdk](https://github.com/stackblitz/sdk)
+- Starter templates: [stackblitz/starters](https://github.com/stackblitz/starters)
+- WebContainers: [stackblitz/webcontainer-core](https://github.com/stackblitz/webcontainer-core)
+- WebContainer API docs: [stackblitz/webcontainer-docs](https://github.com/stackblitz/webcontainer-docs)
