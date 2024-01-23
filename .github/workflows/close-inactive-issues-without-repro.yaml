@@ -24,7 +24,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         LABEL_NAME: 'Status: Needs a reproduction link'
         LABEL_NAME_URL: 'Status%3A%20Needs%20a%20reproduction%20link'
-        CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 7 days without a reproduction link, it will be temporarily closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link and re-open the issue! Thanks for your diligence in helping us continuously improve the StackBlitz platform.'
+        CUSTOM_MESSAGE: 'In order to investigate further we need a link to a StackBlitz project reproducing the issue. /n /n As this issue has been inactive for 1 day without a reproduction link, it will be closed to allow prioritization of other issues. /n /n If this needs additional investigation, please share a reproduction link by opening a new issue. Thanks for your diligence in helping us continuously improve the StackBlitz platform.'
       run: |
         set -e
         set -x
@@ -62,11 +62,12 @@ jobs:
               # Check if there has been any activity after the label was added
               has_activity_after_label=$(jq -c "map(select(.created_at > \"$label_added_at\")) | length" timeline.json)
 
-              # Check if at least 30 days have passed since the label was added
+              # Check if at least 1 day has passed since the label was added
               current_time=$(date --utc +'%Y-%m-%dT%H:%M:%SZ')
-              is_week_old=$(dateutils.ddiff "$label_added_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 672) print "yes"; else print "no";}')
+              is_day_old=$(dateutils.ddiff "$label_added_at" "$current_time" -f '%H:%M:%S' | awk -F: '{if ($1 >= 24) print "yes"; else print "no";}')
 
-              if [ "$is_week_old" = "yes" ] && [ "$has_activity_after_label" = "0" ]; then
+
+              if [ "$is_day_old" = "yes" ] && [ "$has_activity_after_label" = "0" ]; then
                 echo "Commenting and closing issue $issue..."
                 # Comment on the issue
                 COMMENT_RESPONSE=$(curl -sS -w "%{http_code}" -X POST -H "Authorization: token $GITHUB_TOKEN" \
