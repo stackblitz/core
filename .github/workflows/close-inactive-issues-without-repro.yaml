@@ -1,4 +1,4 @@
-name: Close Issues with Tag Needs Repro Link After 1 Month of Inactivity
+name: Close Issues with Tag Needs Repro Link
 
 on:
   schedule:
