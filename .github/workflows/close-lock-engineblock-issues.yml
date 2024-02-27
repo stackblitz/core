@@ -1,0 +1,81 @@
+name: Close and Lock Issues with Status Stale Label
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Run every day at midnight
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  close-issues:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Close and lock issues
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABEL_NAME: "Status%3A%20EngineBlock"
+          CUSTOM_MESSAGE: 'Hey there! \n \n It looks like you are using an EngineBlock project, which we recently removed from our starters. You can read more about how we are upgrading our starters here: [Starters Upgrade: WebContainers and Vite](https://blog.stackblitz.com/posts/webcontainers-starters-update/).\n\nMoving forward I would recommend that you see if this problem persists in a WebContainer based project. You can do that by simply clicking one of the links below: \n [node.new](https://node.new) \n [vite.new](https://vite.new) \n Or even more here.\n\nFor now, I am going to close this issue, but feel free to open a new one if you have any issues with the WebContainer based project.'
+        run: |
+          set -e  # Stop the script if any command fails
+          set -x  # Echo each command before executing it
+
+          page=1
+          while : ; do
+            echo "Fetching page $page of issues..."
+            response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
+
+            echo $response > issues.json
+
+            if [ $(jq length issues.json) -eq 0 ]; then
+              echo "No more issues found."
+              break
+            fi
+
+            echo "Commenting, closing, and locking issues..."
+            jq -c '.[] | .number' issues.json | while read -r issue; do
+              # Comment on the issue
+              COMMENT_RESPONSE=$(curl -sS -w "%{http_code}" -X POST -H "Authorization: token $GITHUB_TOKEN" \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue/comments" \
+                    -d "{\"body\": \"$CUSTOM_MESSAGE\"}")
+
+              HTTP_STATUS=$(echo $COMMENT_RESPONSE | rev | cut -c 1-3 | rev)
+              RESPONSE_BODY=$(echo $COMMENT_RESPONSE | rev | cut -c 4- | rev)
+
+              if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+                echo "Successfully commented on issue $issue."
+              else
+                echo "Failed to comment on issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                exit 1
+              fi
+
+              # Close and lock the issue
+              RESPONSE=$(curl -sS -w "%{http_code}" -X PATCH -H "Authorization: token $GITHUB_TOKEN" \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue" \
+                    -d "{\"state\": \"closed\", \"lock_reason\": \"resolved\"}")
+
+              HTTP_STATUS=$(echo $RESPONSE | rev | cut -c 1-3 | rev)
+              RESPONSE_BODY=$(echo $RESPONSE | rev | cut -c 4- | rev)
+
+              if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+                echo "Successfully closed and locked issue $issue."
+              else
+                echo "Failed to close and lock issue $issue. HTTP Status: $HTTP_STATUS, Response: $RESPONSE_BODY"
+                exit 1
+              fi
+            done
+            
+            ((page++))
+          done
