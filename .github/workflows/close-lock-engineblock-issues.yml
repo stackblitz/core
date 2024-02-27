@@ -33,7 +33,7 @@ jobs:
             echo "Fetching page $page of issues..."
             response=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" \
                  -H "Accept: application/vnd.github.v3+json" \
-                 "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=100&page=$page")
+                 "https://api.github.com/repos/$GITHUB_REPOSITORY/issues?state=open&labels=$LABEL_NAME&per_page=1&page=$page")
 
             echo $response > issues.json
 
@@ -76,6 +76,4 @@ jobs:
                 exit 1
               fi
             done
-            
-            ((page++))
           done
