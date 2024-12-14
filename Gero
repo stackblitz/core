@@ -1,0 +1,33 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { DollarSign, Users, ShoppingCart, TrendingUp } from 'lucide-react'
+
+const metrics = [
+  { name: 'Total Revenue', value: '$54,000', icon: DollarSign, change: '+14%' },
+  { name: 'New Customers', value: '487', icon: Users, change: '+7%' },
+  { name: 'Total Sales', value: '2,350', icon: ShoppingCart, change: '+17%' },
+  { name: 'Conversion Rate', value: '3.24%', icon: TrendingUp, change: '+2.5%' },
+]
+
+export default function KeyMetrics() {
+  return (
+    <Card className="col-span-2">
+      <CardHeader>
+        <CardTitle>Key Metrics</CardTitle>
+        <CardDescription>Quick snapshot of business performance</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {metrics.map((metric) => (
+            <Card key={metric.name}>
+              <CardContent className="flex flex-col items-center p-6">
+                <metric.icon className="h-12 w-12 mb-4 text-blue-500" />
+                <h3 className="text-lg font-semibold">{metric.name}</h3>
+                <p className="text-3xl font-bold">{metric.value}</p>
+                <p className={`text-sm ${metric.change.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                  {metric.change}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </CardContent>
