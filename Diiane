@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Diiane Éducation</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">Diiane Éducation</div>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="cours.html">Cours</a>
+      <a href="examens.html">Examens</a>
+      <a href="videos.html">Vidéos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>Bienvenue sur Diiane Éducation</h1>
+      <p>Cours gratuits, sujets corrigés, vidéos pédagogiques : tout pour réussir.</p>
+    </section>
+    <section class="features">
+      <div>
+        <h2>Cours</h2>
+        <p>Du primaire jusqu’au lycée, disponibles en PDF.</p>
+      </div>
+      <div>
+        <h2>Examens</h2>
+        <p>Sujets BEPC, BAC avec corrigés détaillés.</p>
+      </div>
+      <div>
+        <h2>Vidéos</h2>
+        <p>Leçons et explications en vidéo (YouTube intégrés).</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2025 Diiane Éducation – Tous droits réservés.
+  </footer>
+</body>
+<script src="js/script.js"></script>
+</html>
+body { margin: 0; font-family: 'Poppins', sans-serif; color: #333; }
+header { display: flex; justify-content: space-between; align-items: center; background: #1f3a93; padding: 10px 20px; position: sticky; top: 0; }
+header .logo { color: white; font-size: 1.5em; font-weight: bold; }
+header nav a { color: white; margin: 0 10px; text-decoration: none; }
+header nav a:hover { text-decoration: underline; }
+.hero { background: #27ae60; color: white; padding: 60px 20px; text-align: center; }
+.features { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 20px; padding: 40px 20px; text-align: center; }
+.features h2 { color: #1f3a93; }
+footer { background: #1f3a93; color: white; text-align: center; padding: 10px; }
+@media (max-width:600px){
+  header nav { flex-direction: column; }
+  .features { grid-template-columns: 1fr; }
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head> … // mêmes meta, title, CSS que index.html
+</head>
+<body>
+  <header>… même menu …</header>
+  <main>
+    <h1>Cours disponibles</h1>
+    <ul>
+      <li><strong>10ᵉ – Mathématiques</strong> – <a href="pdf/10e-maths.pdf">Télécharger</a></li>
+      <li><strong>11ᵉ – Français</strong> – <a href="pdf/11e-francais.pdf">Télécharger</a></li>
+    </ul>
+  </main>
+  <footer>…</footer>
+</body>
+<script src="js/script.js"></script>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head> … </head>
+<body>
+  <header>…</header>
+  <main>
+    <h1>Sujets corrigés</h1>
+    <ul>
+      <li>BEPC 2024 – <a href="pdf/bepc2024-maths.pdf">Maths (corrigé)</a></li>
+      <li>BAC 2023 – <a href="pdf/bac2023-physique.pdf">Physique (corrigé)</a></li>
+    </ul>
+  </main>
+  <footer>…</footer>
+</body>
+<script src="js/script.js"></script>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head> … </head>
+<body>
+  <header>…</header>
+  <main>
+    <h1>Vidéos pédagogiques</h1>
+    <div class="video-container">
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/ID_VIDEO1" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </main>
+  <footer>…</footer>
+</body>
+<script src="js/script.js"></script>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head> … </head>
+<body>
+  <header>…</header>
+  <main>
+    <h1>Contact</h1>
+    <form action="#" method="post">
+      <label>Nom<br><input type="text" name="name" required></label><br>
+      <label>E‑mail<br><input type="email" name="email" required></label><br>
+      <label>Message<br><textarea name="message" rows="4" required></textarea></label><br>
+      <button type="submit">Envoyer</button>
+    </form>
+  </main>
+  <footer>…</footer>
+</body>
+<script src="js/script.js"></script>
+</html>
